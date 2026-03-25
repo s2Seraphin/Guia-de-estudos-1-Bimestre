@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>📚 Guia de Estudos</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --geo: #9B5DE5;
+    --hist: #00B37E;
+    --pop: #0077B6;
+    --bg: #0A0A12;
+    --card: #13131F;
+    --card2: #1A1A2A;
+    --text: #E8E8FF;
+    --subtle: #5A5A7A;
+    --nav-h: 64px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html, body { height: 100%; overflow: hidden; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ===== TOP BAR ===== */
+  .topbar {
+    background: var(--card);
+    border-bottom: 1px solid rgba(255,255,255,.07);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+    flex-shrink: 0;
+  }
+  .topbar-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, #9B5DE5, #00BBF9);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .topbar-sub { font-size: .72rem; color: var(--subtle); font-weight: 700; }
+
+  /* ===== MATERIA TABS ===== */
+  .materia-tabs {
+    display: flex;
+    background: var(--card);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    padding: 0 8px;
+    overflow-x: auto;
+    flex-shrink: 0;
+    scrollbar-width: none;
+    gap: 4px;
+  }
+  .materia-tabs::-webkit-scrollbar { display: none; }
+  .mtab {
+    padding: 10px 14px;
+    font-size: .78rem;
+    font-weight: 800;
+    color: var(--subtle);
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: all .2s;
+    flex-shrink: 0;
+  }
+  .mtab.active-geo { color: var(--geo); border-bottom-color: var(--geo); }
+  .mtab.active-hist { color: var(--hist); border-bottom-color: var(--hist); }
+  .mtab.active-pop { color: var(--pop); border-bottom-color: var(--pop); }
+
+  /* ===== CONTENT ===== */
+  .content-wrapper {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+  }
+  .page {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 12px 12px calc(var(--nav-h) + 12px);
+    display: none;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .page::-webkit-scrollbar { display: none; }
+  .page.active { display: block; }
+
+  /* ===== BOTTOM NAV ===== */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: var(--nav-h);
+    background: var(--card);
+    border-top: 1px solid rgba(255,255,255,.07);
+    display: flex;
+    z-index: 200;
+  }
+  .bnav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    cursor: pointer;
+    transition: all .15s;
+    border: none;
+    background: none;
+    padding: 0;
+  }
+  .bnav-icon { font-size: 1.3rem; transition: transform .2s; }
+  .bnav-label { font-size: .65rem; font-weight: 800; color: var(--subtle); transition: color .2s; }
+  .bnav-item.active-geo .bnav-label { color: var(--geo); }
+  .bnav-item.active-geo .bnav-icon { transform: scale(1.2); }
+  .bnav-item.active-hist .bnav-label { color: var(--hist); }
+  .bnav-item.active-hist .bnav-icon { transform: scale(1.2); }
+  .bnav-item.active-pop .bnav-label { color: var(--pop); }
+  .bnav-item.active-pop .bnav-icon { transform: scale(1.2); }
+
+  /* ===== SECTION CHIPS ===== */
+  .chips {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 8px 0 12px;
+    scrollbar-width: none;
+  }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip {
+    background: var(--card2);
+    border: 1.5px solid rgba(255,255,255,.1);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: .72rem;
+    font-weight: 800;
+    color: var(--subtle);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .2s;
+    flex-shrink: 0;
+  }
+  .chip.active { color: white; border-color: currentColor; }
+  .chip-geo.active { color: var(--geo); background: rgba(155,93,229,.12); }
+  .chip-hist.active { color: var(--hist); background: rgba(0,179,126,.12); }
+  .chip-pop.active { color: var(--pop); background: rgba(0,119,182,.12); }
+
+  /* ===== SECTION CONTENT ===== */
+  .section-block { display: none; }
+  .section-block.active { display: block; }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(255,255,255,.05);
+  }
+  .card-accent-geo { border-left: 4px solid var(--geo); }
+  .card-accent-hist { border-left: 4px solid var(--hist); }
+  .card-accent-pop { border-left: 4px solid var(--pop); }
+
+  .card h3 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .card p { color: #CCCCEE; line-height: 1.65; font-size: .88rem; margin-bottom: 8px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  /* ===== FORMULA ===== */
+  .formula {
+    background: var(--card2);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin: 8px 0;
+    text-align: center;
+    font-size: .9rem;
+    font-weight: 800;
+    color: #FFD166;
+    border: 1.5px solid rgba(255,209,102,.3);
+  }
+  .tip {
+    background: rgba(0,180,216,.08);
+    border: 1.5px solid rgba(0,180,216,.3);
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-size: .83rem;
+    color: #BAE6FD;
+    margin: 8px 0;
+    line-height: 1.6;
+  }
+  .warn {
+    background: rgba(239,71,111,.08);
+    border: 1.5px solid rgba(239,71,111,.3);
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-size: .83rem;
+    color: #FCA5A5;
+    margin: 8px 0;
+    line-height: 1.6;
+  }
+  .success {
+    background: rgba(45,198,83,.08);
+    border: 1.5px solid rgba(45,198,83,.3);
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-size: .83rem;
+    color: #A7F3D0;
+    margin: 8px 0;
+    line-height: 1.6;
+  }
+
+  /* ===== PILL ===== */
+  .pill {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 20px;
+    font-size: .75rem;
+    font-weight: 800;
+    margin: 1px;
+  }
+  .p-geo { background: rgba(155,93,229,.25); color: #D8B4FE; }
+  .p-hist { background: rgba(0,179,126,.25); color: #6EE7B7; }
+  .p-pop { background: rgba(0,119,182,.25); color: #7DD3FC; }
+  .p-am { background: rgba(255,209,102,.2); color: #FDE68A; }
+  .p-vm { background: rgba(239,71,111,.2); color: #FCA5A5; }
+
+  /* ===== ACCORDION ===== */
+  .accordion { margin-bottom: 8px; }
+  .acc-header {
+    background: var(--card2);
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,.06);
+    transition: all .2s;
+    user-select: none;
+  }
+  .acc-header:active { transform: scale(.98); }
+  .acc-title { font-family: 'Fredoka One', cursive; font-size: .95rem; }
+  .acc-arrow { font-size: .8rem; color: var(--subtle); transition: transform .3s; }
+  .acc-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .35s ease;
+  }
+  .acc-body.open { max-height: 2000px; }
+  .acc-header.open .acc-arrow { transform: rotate(180deg); }
+  .acc-inner { padding: 10px 14px 14px; }
+
+  /* ===== STATS GRID ===== */
+  .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0; }
+  .stat-box {
+    background: var(--card2);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,.05);
+  }
+  .stat-num {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    background: linear-gradient(135deg, #00BBF9, #00F5D4);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .stat-label { font-size: .72rem; color: var(--subtle); margin-top: 2px; line-height: 1.3; }
+
+  /* ===== TABLE ===== */
+  .tbl { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: .8rem; }
+  .tbl th { background: var(--card2); padding: 7px 8px; text-align: left; font-family: 'Fredoka One', cursive; font-size: .82rem; }
+  .tbl td { padding: 7px 8px; border-bottom: 1px solid rgba(255,255,255,.04); color: #CCCCEE; }
+  .tbl tr:last-child td { border-bottom: none; }
+
+  /* ===== MINI DIAGRAMS (SVG) ===== */
+  .svg-wrap { display: flex; justify-content: center; margin: 10px 0; }
+
+  /* ===== TIMELINE ===== */
+  .tl { position: relative; padding-left: 24px; }
+  .tl::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, var(--geo), var(--hist), var(--pop)); border-radius: 2px; }
+  .tl-row { margin-bottom: 12px; position: relative; }
+  .tl-dot { position: absolute; left: -20px; top: 3px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--geo); background: var(--bg); }
+  .tl-dot.hist { border-color: var(--hist); }
+  .tl-dot.pop { border-color: var(--pop); }
+  .tl-year { font-family: 'Fredoka One', cursive; font-size: .85rem; color: #FFD166; }
+  .tl-desc { font-size: .8rem; color: #AAAACC; line-height: 1.5; }
+
+  /* ===== ANGLE BOXES ===== */
+  .angle-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; margin: 8px 0; }
+  .angle-box { background: var(--card2); border-radius: 10px; padding: 10px 6px; text-align: center; }
+  .angle-label { font-family: 'Fredoka One', cursive; font-size: .78rem; }
+  .angle-val { font-size: .72rem; color: #FFD166; margin-top: 2px; }
+
+  /* ===== FUSO CARDS ===== */
+  .fuso-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0; }
+  .fuso-box { border-radius: 12px; padding: 12px; border: 1.5px solid; text-align: center; }
+  .fuso-num { font-family: 'Fredoka One', cursive; font-size: 1rem; margin-bottom: 3px; }
+  .fuso-gmt { font-size: .72rem; font-weight: 800; margin-bottom: 5px; }
+  .fuso-est { font-size: .7rem; color: var(--subtle); line-height: 1.4; }
+
+  /* ===== PODER GRID ===== */
+  .poder-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; margin: 8px 0; }
+  .poder-box { border-radius: 12px; padding: 10px 6px; text-align: center; border: 1.5px solid rgba(255,255,255,.07); }
+  .poder-emoji { font-size: 1.5rem; margin-bottom: 4px; }
+  .poder-title { font-family: 'Fredoka One', cursive; font-size: .8rem; margin-bottom: 4px; }
+  .poder-desc { font-size: .68rem; color: var(--subtle); line-height: 1.4; }
+
+  /* ===== SECTION TITLE ===== */
+  .sec-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    padding: 4px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ===== LISTA ===== */
+  ul.lst { list-style: none; padding: 0; }
+  ul.lst li { font-size: .85rem; padding: 4px 0 4px 20px; position: relative; color: #CCCCEE; line-height: 1.55; }
+  ul.lst li::before { content: '›'; position: absolute; left: 4px; color: #9B5DE5; font-weight: 900; }
+  ul.lst.hist li::before { color: var(--hist); }
+  ul.lst.pop li::before { color: var(--pop); }
+
+  /* ===== PROGRESS ===== */
+  .prog-bar { background: var(--card2); border-radius: 20px; height: 8px; overflow: hidden; margin: 4px 0 8px; }
+  .prog-fill { height: 100%; border-radius: 20px; transition: width .6s; }
+
+  /* ===== SOCIAL PYRAMID ===== */
+  .pyramid { display: flex; flex-direction: column; gap: 4px; align-items: center; margin: 10px 0; }
+  .pyr-row { display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: .75rem; font-weight: 800; height: 36px; transition: all .2s; }
+
+  /* swipe hint */
+  .swipe-hint { text-align: center; color: var(--subtle); font-size: .72rem; padding: 6px 0 2px; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div>
+    <div class="topbar-title">📚 Guia de Estudos</div>
+    <div class="topbar-sub" id="topbar-sub">Geometria Plana</div>
+  </div>
+  <div style="font-size:1.5rem">🎯</div>
+</div>
+
+<!-- MATERIA TABS -->
+<div class="materia-tabs" id="materia-tabs">
+  <div class="mtab active-geo" onclick="switchMateria('geo', this)">📐 Geometria</div>
+  <div class="mtab" onclick="switchMateria('hist', this)">🇧🇷 História</div>
+  <div class="mtab" onclick="switchMateria('pop', this)">📊 Geo/Pop</div>
+</div>
+
+<!-- CONTENT WRAPPER -->
+<div class="content-wrapper">
+
+  <!-- ======================== PAGE: GEOMETRIA ======================== -->
+  <div class="page active" id="page-geo">
+    <!-- CHIPS -->
+    <div class="chips">
+      <div class="chip chip-geo active" onclick="switchSection('geo','intro',this)">📍 Intro</div>
+      <div class="chip chip-geo" onclick="switchSection('geo','angulos',this)">📐 Ângulos</div>
+      <div class="chip chip-geo" onclick="switchSection('geo','paralelas',this)">⟺ Paralelas</div>
+      <div class="chip chip-geo" onclick="switchSection('geo','triangulos',this)">🔺 Triângulos</div>
+      <div class="chip chip-geo" onclick="switchSection('geo','poligonos',this)">🔷 Polígonos</div>
+      <div class="chip chip-geo" onclick="switchSection('geo','tales',this)">📏 Tales</div>
+      <div class="chip chip-geo" onclick="switchSection('geo','semelhanca',this)">🔍 Semelhança</div>
+    </div>
+
+    <!-- INTRO -->
+    <div class="section-block active" id="geo-intro">
+      <div class="sec-title" style="color:var(--geo)">📍 Introdução à Geometria</div>
+
+      <div class="accordion">
+        <div class="acc-header open" onclick="toggleAcc(this)">
+          <span class="acc-title">🌍 Ponto, Reta e Segmento</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body open">
+          <div class="acc-inner">
+            <div class="stats-row">
+              <div class="stat-box">
+                <div style="font-size:1.4rem;margin-bottom:4px">•</div>
+                <div class="stat-label"><b style="color:#E8E8FF">Ponto A</b><br>Apenas posição. Sem tamanho!</div>
+              </div>
+              <div class="stat-box">
+                <div style="font-size:1rem;margin-bottom:4px;color:#00BBF9">←————→</div>
+                <div class="stat-label"><b style="color:#E8E8FF">Reta r</b><br>Infinita, sem começo nem fim</div>
+              </div>
+              <div class="stat-box">
+                <div style="font-size:1rem;margin-bottom:4px;color:#9B5DE5">•————</div>
+                <div class="stat-label"><b style="color:#E8E8FF">Semirreta</b><br>Tem origem, vai pra sempre de um lado</div>
+              </div>
+              <div class="stat-box">
+                <div style="font-size:1rem;margin-bottom:4px;color:#00F5D4">•————•</div>
+                <div class="stat-label"><b style="color:#E8E8FF">Segmento AB</b><br>Tem início E fim!</div>
+              </div>
+            </div>
+            <div class="tip">🔑 <b>Notação:</b> Pontos = letras maiúsculas (A, B...) | Retas = letras minúsculas (r, s...) | Planos = letras gregas (α, β...)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <span class="acc-title">🎯 Ponto Médio e Congruência</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <div class="card card-accent-geo">
+              <p><b>Ponto Médio M</b> divide AB em dois pedaços iguais:</p>
+              <div class="formula">AM = MB</div>
+            </div>
+            <div class="card card-accent-geo">
+              <p><b>Congruência</b> = mesma medida. Símbolo: ≅<br>
+              <span class="pill p-geo">AB ≅ CD</span> significa AB = CD</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ÂNGULOS -->
+    <div class="section-block" id="geo-angulos">
+      <div class="sec-title" style="color:var(--geo)">📐 Ângulos</div>
+
+      <div class="accordion">
+        <div class="acc-header open" onclick="toggleAcc(this)">
+          <span class="acc-title">📐 Tipos de Ângulos</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body open">
+          <div class="acc-inner">
+            <div class="angle-row">
+              <div class="angle-box">
+                <svg viewBox="0 0 50 50" width="44" height="44" style="display:block;margin:0 auto 4px">
+                  <line x1="25" y1="40" x2="43" y2="40" stroke="#00F5D4" stroke-width="2.5"/>
+                  <line x1="25" y1="40" x2="38" y2="15" stroke="#00F5D4" stroke-width="2.5"/>
+                  <path d="M 35 40 A 10 10 0 0 0 29 28" fill="rgba(0,245,212,.15)" stroke="#00F5D4" stroke-width="1.5"/>
+                  <circle cx="25" cy="40" r="2.5" fill="#FFD166"/>
+                </svg>
+                <div class="angle-label" style="color:#00F5D4">Agudo</div>
+                <div class="angle-val">menor 90°</div>
+              </div>
+              <div class="angle-box">
+                <svg viewBox="0 0 50 50" width="44" height="44" style="display:block;margin:0 auto 4px">
+                  <line x1="10" y1="40" x2="40" y2="40" stroke="#FF6B9D" stroke-width="2.5"/>
+                  <line x1="10" y1="40" x2="10" y2="15" stroke="#FF6B9D" stroke-width="2.5"/>
+                  <rect x="10" y="24" width="14" height="14" fill="rgba(255,107,157,.15)" stroke="#FF6B9D" stroke-width="1.5"/>
+                  <circle cx="10" cy="40" r="2.5" fill="#FFD166"/>
+                </svg>
+                <div class="angle-label" style="color:#FF6B9D">Reto</div>
+                <div class="angle-val">= 90°</div>
+              </div>
+              <div class="angle-box">
+                <svg viewBox="0 0 50 50" width="44" height="44" style="display:block;margin:0 auto 4px">
+                  <line x1="5" y1="38" x2="45" y2="38" stroke="#9B5DE5" stroke-width="2.5"/>
+                  <line x1="5" y1="38" x2="28" y2="10" stroke="#9B5DE5" stroke-width="2.5"/>
+                  <path d="M 32 38 A 27 27 0 0 0 17 22" fill="rgba(155,93,229,.15)" stroke="#9B5DE5" stroke-width="1.5"/>
+                  <circle cx="5" cy="38" r="2.5" fill="#FFD166"/>
+                </svg>
+                <div class="angle-label" style="color:#9B5DE5">Obtuso</div>
+                <div class="angle-val">maior 90°</div>
+              </div>
+              <div class="angle-box">
+                <svg viewBox="0 0 50 50" width="44" height="44" style="display:block;margin:0 auto 4px">
+                  <defs>
+                    <marker id="m1" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#FEE440"/></marker>
+                    <marker id="m2" markerWidth="6" markerHeight="6" refX="2" refY="3" orient="auto"><path d="M6,0 L0,3 L6,6 z" fill="#FEE440"/></marker>
+                  </defs>
+                  <line x1="5" y1="25" x2="45" y2="25" stroke="#FEE440" stroke-width="2.5" marker-end="url(#m1)" marker-start="url(#m2)"/>
+                  <circle cx="25" cy="25" r="2.5" fill="#FF6B9D"/>
+                </svg>
+                <div class="angle-label" style="color:#FEE440">Raso</div>
+                <div class="angle-val">= 180°</div>
+              </div>
+              <div class="angle-box">
+                <svg viewBox="0 0 50 50" width="44" height="44" style="display:block;margin:0 auto 4px">
+                  <circle cx="25" cy="25" r="17" fill="rgba(0,187,249,.1)" stroke="#00BBF9" stroke-width="1.5" stroke-dasharray="4,3"/>
+                  <line x1="25" y1="25" x2="42" y2="25" stroke="#00BBF9" stroke-width="2.5"/>
+                  <circle cx="25" cy="25" r="2.5" fill="#FFD166"/>
+                </svg>
+                <div class="angle-label" style="color:#00BBF9">Completo</div>
+                <div class="angle-val">= 360°</div>
+              </div>
+              <div class="angle-box">
+                <svg viewBox="0 0 50 50" width="44" height="44" style="display:block;margin:0 auto 4px">
+                  <line x1="25" y1="42" x2="42" y2="42" stroke="#F15BB5" stroke-width="2.5"/>
+                  <line x1="25" y1="42" x2="38" y2="18" stroke="#F15BB5" stroke-width="2.5"/>
+                  <line x1="25" y1="42" x2="25" y2="18" stroke="#F15BB5" stroke-width="1.5" stroke-dasharray="3,3"/>
+                  <circle cx="25" cy="42" r="2.5" fill="#FFD166"/>
+                </svg>
+                <div class="angle-label" style="color:#F15BB5">Bissetriz</div>
+                <div class="angle-val">divide ao meio</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <span class="acc-title">➕ Ângulos que se Somam</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <div class="tbl-wrapper">
+              <table class="tbl">
+                <tr><th>Nome</th><th>Soma</th><th>Macete</th></tr>
+                <tr><td style="color:#00F5D4">Complementares</td><td><span class="pill p-geo">a+b=90°</span></td><td style="color:var(--subtle)">Fazem ângulo reto</td></tr>
+                <tr><td style="color:#FF6B9D">Suplementares</td><td><span class="pill p-vm">a+b=180°</span></td><td style="color:var(--subtle)">Fazem linha reta</td></tr>
+                <tr><td style="color:#FEE440">Replementares</td><td><span class="pill p-am">a+b=360°</span></td><td style="color:var(--subtle)">Volta completa</td></tr>
+              </table>
+            </div>
+            <div class="card card-accent-geo">
+              <h3>✖️ Opostos pelo Vértice</h3>
+              <div class="svg-wrap">
+                <svg viewBox="0 0 120 100" width="120" height="100">
+                  <line x1="10" y1="90" x2="110" y2="10" stroke="#555" stroke-width="2"/>
+                  <line x1="10" y1="10" x2="110" y2="90" stroke="#777" stroke-width="2"/>
+                  <path d="M 60 50 m 16-4 A 17 17 0 0 0 44 38" fill="rgba(255,107,157,.2)" stroke="#FF6B9D" stroke-width="2"/>
+                  <path d="M 60 50 m -16 4 A 17 17 0 0 0 76 62" fill="rgba(155,93,229,.2)" stroke="#9B5DE5" stroke-width="2"/>
+                  <circle cx="60" cy="50" r="3" fill="#FFD166"/>
+                  <text x="78" y="44" fill="#FF6B9D" font-family="Fredoka One" font-size="13">a</text>
+                  <text x="36" y="66" fill="#9B5DE5" font-family="Fredoka One" font-size="13">b</text>
+                </svg>
+              </div>
+              <div class="formula">a = b ✅ (opostos são IGUAIS!)</div>
+              <p>Pensa num X — os que ficam de frente são sempre iguais!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARALELAS -->
+    <div class="section-block" id="geo-paralelas">
+      <div class="sec-title" style="color:var(--geo)">⟺ Retas Paralelas</div>
+      <div class="card card-accent-geo">
+        <h3>🛤️ O que são paralelas?</h3>
+        <p>Como trilhos de trem — nunca se encontram! Notação: <span class="pill p-geo">r // s</span></p>
+      </div>
+      <div class="card card-accent-geo">
+        <h3>✂️ Transversal corta tudo!</h3>
+        <div class="svg-wrap">
+          <svg viewBox="0 0 200 150" width="200" height="150">
+            <line x1="15" y1="55" x2="185" y2="55" stroke="#00BBF9" stroke-width="2"/>
+            <line x1="15" y1="110" x2="185" y2="110" stroke="#9B5DE5" stroke-width="2"/>
+            <line x1="60" y1="10" x2="150" y2="150" stroke="#FF6B9D" stroke-width="2"/>
+            <circle cx="90" cy="55" r="3" fill="#FFD166"/>
+            <circle cx="120" cy="110" r="3" fill="#FFD166"/>
+            <text x="62" y="46" fill="#FF6B9D" font-family="Fredoka One" font-size="11">1</text>
+            <text x="95" y="46" fill="#00F5D4" font-family="Fredoka One" font-size="11">2</text>
+            <text x="95" y="72" fill="#FEE440" font-family="Fredoka One" font-size="11">3</text>
+            <text x="62" y="72" fill="#F15BB5" font-family="Fredoka One" font-size="11">4</text>
+            <text x="93" y="100" fill="#FF6B9D" font-family="Fredoka One" font-size="11">5</text>
+            <text x="125" y="100" fill="#00F5D4" font-family="Fredoka One" font-size="11">6</text>
+            <text x="125" y="127" fill="#FEE440" font-family="Fredoka One" font-size="11">7</text>
+            <text x="93" y="127" fill="#F15BB5" font-family="Fredoka One" font-size="11">8</text>
+            <text x="170" y="52" fill="#00BBF9" font-family="Fredoka One" font-size="11">r</text>
+            <text x="170" y="108" fill="#9B5DE5" font-family="Fredoka One" font-size="11">s</text>
+          </svg>
+        </div>
+        <table class="tbl">
+          <tr><th>Tipo</th><th>Pares</th><th>São...</th></tr>
+          <tr><td>Correspondentes</td><td style="color:#E8E8FF">1=5, 2=6...</td><td style="color:#00F5D4">⚖️ Iguais</td></tr>
+          <tr><td>Alt. Internos</td><td style="color:#E8E8FF">3&5, 4&6</td><td style="color:#00F5D4">⚖️ Iguais</td></tr>
+          <tr><td>Alt. Externos</td><td style="color:#E8E8FF">1&7, 2&8</td><td style="color:#00F5D4">⚖️ Iguais</td></tr>
+          <tr><td>Colaterais Int.</td><td style="color:#E8E8FF">3&6, 4&5</td><td style="color:#FF6B9D">➕ 180°</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- TRIÂNGULOS -->
+    <div class="section-block" id="geo-triangulos">
+      <div class="sec-title" style="color:var(--geo)">🔺 Triângulos</div>
+      <div class="card card-accent-geo">
+        <h3>🔮 A Regra de Ouro!</h3>
+        <div class="svg-wrap">
+          <svg viewBox="0 0 160 120" width="160" height="120">
+            <polygon points="80,12 15,108 145,108" fill="rgba(155,93,229,.1)" stroke="#9B5DE5" stroke-width="2.5"/>
+            <path d="M 80 12 m 9 9 A 14 14 0 0 1 71 21" fill="rgba(255,107,157,.2)" stroke="#FF6B9D" stroke-width="1.5"/>
+            <path d="M 15 108 m 15-2 A 14 14 0 0 1 15 94" fill="rgba(0,187,249,.2)" stroke="#00BBF9" stroke-width="1.5"/>
+            <path d="M 145 108 m -15-2 A 14 14 0 0 0 145 94" fill="rgba(0,245,212,.2)" stroke="#00F5D4" stroke-width="1.5"/>
+            <text x="73" y="9" fill="#FF6B9D" font-family="Fredoka One" font-size="13">A</text>
+            <text x="3" y="110" fill="#00BBF9" font-family="Fredoka One" font-size="13">B</text>
+            <text x="148" y="110" fill="#00F5D4" font-family="Fredoka One" font-size="13">C</text>
+          </svg>
+        </div>
+        <div class="formula">Â + B̂ + Ĉ = 180° (SEMPRE!)</div>
+        <div class="tip">✅ Exemplo: Se Â=60° e B̂=80° → Ĉ = 180-60-80 = <b>40°</b></div>
+      </div>
+      <div class="card card-accent-geo">
+        <h3>↗️ Ângulo Externo</h3>
+        <div class="formula">ângulo externo = soma dos 2 internos NÃO adjacentes</div>
+        <div class="tip">🔑 O ângulo de fora = soma dos dois que ficam LONGE dele!</div>
+        <p style="margin-top:8px">E a soma de todos os ângulos externos = <span class="pill p-geo">360°</span></p>
+      </div>
+    </div>
+
+    <!-- POLÍGONOS -->
+    <div class="section-block" id="geo-poligonos">
+      <div class="sec-title" style="color:var(--geo)">🔷 Polígonos</div>
+      <div class="accordion">
+        <div class="acc-header open" onclick="toggleAcc(this)">
+          <span class="acc-title">📛 Nomes e Fórmulas</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body open">
+          <div class="acc-inner">
+            <table class="tbl">
+              <tr><th>Nome</th><th>Lados</th><th>S. Int.</th></tr>
+              <tr><td>Triângulo</td><td>3</td><td style="color:#FFD166">180°</td></tr>
+              <tr><td>Quadrilátero</td><td>4</td><td style="color:#FFD166">360°</td></tr>
+              <tr><td>Pentágono</td><td>5</td><td style="color:#FFD166">540°</td></tr>
+              <tr><td>Hexágono</td><td>6</td><td style="color:#FFD166">720°</td></tr>
+              <tr><td>Heptágono</td><td>7</td><td style="color:#FFD166">900°</td></tr>
+              <tr><td>Octógono</td><td>8</td><td style="color:#FFD166">1080°</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card card-accent-geo">
+        <h3>📐 As 3 Fórmulas Essenciais</h3>
+        <div class="formula">Soma Ângulos Internos = (n-2) × 180°</div>
+        <div class="formula">Soma Ângulos Externos = 360° (SEMPRE!)</div>
+        <div class="formula">Diagonais = n(n-3) ÷ 2</div>
+        <div class="tip">🔑 <b>Exemplo diagonais:</b> Hexágono (n=6): 6×(6-3)÷2 = 9 diagonais</div>
+      </div>
+    </div>
+
+    <!-- TALES -->
+    <div class="section-block" id="geo-tales">
+      <div class="sec-title" style="color:var(--geo)">📏 Linhas Proporcionais</div>
+      <div class="card card-accent-geo">
+        <h3>🏛️ Teorema de Tales</h3>
+        <p>Paralelas cortam transversais em partes <b>proporcionais</b>!</p>
+        <div class="svg-wrap">
+          <svg viewBox="0 0 180 160" width="180" height="160">
+            <line x1="20" y1="35" x2="160" y2="35" stroke="#00BBF9" stroke-width="1.5" stroke-dasharray="5,4" opacity=".7"/>
+            <line x1="20" y1="85" x2="160" y2="85" stroke="#00BBF9" stroke-width="1.5" stroke-dasharray="5,4" opacity=".7"/>
+            <line x1="20" y1="140" x2="160" y2="140" stroke="#00BBF9" stroke-width="1.5" stroke-dasharray="5,4" opacity=".7"/>
+            <line x1="50" y1="10" x2="90" y2="165" stroke="#FF6B9D" stroke-width="2.5"/>
+            <line x1="110" y1="10" x2="150" y2="165" stroke="#9B5DE5" stroke-width="2.5"/>
+            <circle cx="56" cy="35" r="4" fill="#FFD166"/>
+            <circle cx="67" cy="85" r="4" fill="#FFD166"/>
+            <circle cx="80" cy="140" r="4" fill="#FFD166"/>
+            <circle cx="116" cy="35" r="4" fill="#FFD166"/>
+            <circle cx="127" cy="85" r="4" fill="#FFD166"/>
+            <circle cx="140" cy="140" r="4" fill="#FFD166"/>
+            <text x="42" y="28" fill="#FF6B9D" font-family="Fredoka One" font-size="11">A</text>
+            <text x="53" y="96" fill="#FF6B9D" font-family="Fredoka One" font-size="11">B</text>
+            <text x="66" y="158" fill="#FF6B9D" font-family="Fredoka One" font-size="11">C</text>
+            <text x="122" y="28" fill="#9B5DE5" font-family="Fredoka One" font-size="11">P</text>
+            <text x="133" y="96" fill="#9B5DE5" font-family="Fredoka One" font-size="11">Q</text>
+            <text x="146" y="158" fill="#9B5DE5" font-family="Fredoka One" font-size="11">R</text>
+          </svg>
+        </div>
+        <div class="formula">AB/BC = PQ/QR</div>
+      </div>
+      <div class="card card-accent-geo">
+        <h3>📐 Bissetriz Interna</h3>
+        <div class="formula">AB/AC = BS/SC</div>
+        <p>A bissetriz divide o lado oposto proporcional aos outros dois lados!</p>
+      </div>
+    </div>
+
+    <!-- SEMELHANÇA -->
+    <div class="section-block" id="geo-semelhanca">
+      <div class="sec-title" style="color:var(--geo)">🔍 Semelhança</div>
+      <div class="card card-accent-geo">
+        <h3>🤔 O que é semelhança?</h3>
+        <p>Mesma <b>forma</b>, tamanhos diferentes. Como xerox em tamanhos diferentes!</p>
+        <div class="formula">AB/PQ = BC/QR = AC/PR = k (razão)</div>
+        <div class="tip">💡 Se k=2, o triângulo maior é o dobro do menor em todos os lados!</div>
+      </div>
+      <div class="card card-accent-geo">
+        <h3>🏆 Os 3 Critérios</h3>
+        <div class="stats-row" style="grid-template-columns:1fr 1fr 1fr;gap:6px">
+          <div class="stat-box" style="border:1.5px solid rgba(0,245,212,.3)">
+            <div style="font-family:'Fredoka One',cursive;color:#00F5D4;font-size:1rem;margin-bottom:4px">AA~</div>
+            <div class="stat-label">2 ângulos iguais já basta!</div>
+          </div>
+          <div class="stat-box" style="border:1.5px solid rgba(155,93,229,.3)">
+            <div style="font-family:'Fredoka One',cursive;color:#9B5DE5;font-size:1rem;margin-bottom:4px">LAL~</div>
+            <div class="stat-label">2 lados proporcionais + ângulo entre eles igual</div>
+          </div>
+          <div class="stat-box" style="border:1.5px solid rgba(0,187,249,.3)">
+            <div style="font-family:'Fredoka One',cursive;color:#00BBF9;font-size:1rem;margin-bottom:4px">LLL~</div>
+            <div class="stat-label">3 lados proporcionais</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== PAGE: HISTÓRIA ======================== -->
+  <div class="page" id="page-hist">
+    <div class="chips">
+      <div class="chip chip-hist active" onclick="switchSection('hist','precolonial',this)">🌊 Pré-Colonial</div>
+      <div class="chip chip-hist" onclick="switchSection('hist','capitanias',this)">🗺️ Capitanias</div>
+      <div class="chip chip-hist" onclick="switchSection('hist','govgeral',this)">👑 Gov. Geral</div>
+      <div class="chip chip-hist" onclick="switchSection('hist','economia',this)">🌾 Economia</div>
+      <div class="chip chip-hist" onclick="switchSection('hist','uniao',this)">⚔️ União Ibérica</div>
+      <div class="chip chip-hist" onclick="switchSection('hist','invasoes',this)">🚢 Invasões</div>
+    </div>
+
+    <!-- PRÉ-COLONIAL -->
+    <div class="section-block active" id="hist-precolonial">
+      <div class="sec-title" style="color:var(--hist)">🌊 Período Pré-Colonial (1500–1530)</div>
+      <div class="card card-accent-hist">
+        <h3>🤔 Por que ignoraram o Brasil?</h3>
+        <p>As Índias davam muito mais lucro! O Brasil parecia inútil no começo. Só tinham interesse no <span class="pill p-hist">pau-brasil</span>.</p>
+        <div class="tip">🔑 <b>Exploração Assistemática</b> = exploração bagunçada, sem planejamento!</div>
+      </div>
+      <div class="accordion">
+        <div class="acc-header open" onclick="toggleAcc(this)">
+          <span class="acc-title">🪵 Pau-Brasil</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body open">
+          <div class="acc-inner">
+            <ul class="lst hist">
+              <li><b>Monopólio da Coroa</b> — só o rei decidia quem explorava</li>
+              <li>Empresas pagavam ao rei pelo direito de cortar</li>
+              <li>Troca com índios por bugigangas = <span class="pill p-hist">escambo</span></li>
+              <li>Quem comercializava ficou conhecido como "brasileiros"</li>
+              <li>Franceses contrabandeavam constantemente!</li>
+            </ul>
+            <div class="warn">⚠️ O pau-brasil NÃO gerou povoamento! Só a cana-de-açúcar criaria cidades.</div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <span class="acc-title">⛵ As Expedições</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <table class="tbl">
+              <tr><th>Tipo</th><th>Expedições</th></tr>
+              <tr><td style="color:#00B37E">🔭 Exploradoras</td><td>1501: Gaspar de Lemos + Américo Vespúcio (mapeou o litoral!)<br>1503: Gonçalo Coelho (pau-brasil)</td></tr>
+              <tr><td style="color:#EF476F">🚨 Guarda-Costas</td><td>1516 e 1526: Cristóvão Jacques (tentou expulsar franceses, sem muito sucesso)</td></tr>
+              <tr><td style="color:#FFD166">🌟 Colonizadora</td><td>1530: Martim Afonso — Povoar + Explorar + Defender</td></tr>
+            </table>
+            <div class="success">🎉 Martim Afonso introduziu a <b>cana-de-açúcar</b> e fundou <b>São Vicente</b> (1532) — primeira vila do Brasil!</div>
+          </div>
+        </div>
+      </div>
+      <div class="card card-accent-hist">
+        <div class="tl">
+          <div class="tl-row"><div class="tl-dot hist"></div><div class="tl-year">1500</div><div class="tl-desc">Descobrimento por Cabral</div></div>
+          <div class="tl-row"><div class="tl-dot hist"></div><div class="tl-year">1501</div><div class="tl-desc">1ª Expedição Exploradora</div></div>
+          <div class="tl-row"><div class="tl-dot hist"></div><div class="tl-year">1516–1526</div><div class="tl-desc">Expedições Guarda-Costas</div></div>
+          <div class="tl-row"><div class="tl-dot hist"></div><div class="tl-year">1530</div><div class="tl-desc">Martim Afonso chega!</div></div>
+          <div class="tl-row"><div class="tl-dot hist"></div><div class="tl-year">1532</div><div class="tl-desc">Fundação de São Vicente 🎉</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAPITANIAS -->
+    <div class="section-block" id="hist-capitanias">
+      <div class="sec-title" style="color:var(--hist)">🗺️ Capitanias Hereditárias</div>
+      <div class="card card-accent-hist">
+        <h3>🤔 O que eram?</h3>
+        <p>Portugal dividiu o Brasil em <b>14 faixas</b> e deu pra 12 amigos ricos (donatários) colonizarem com o próprio dinheiro!</p>
+        <div class="formula">14 capitanias · 15 lotes · 12 donatários (1534)</div>
+        <div class="stats-row">
+          <div class="stat-box"><div style="font-size:.85rem;color:#FFD166;font-weight:800">📜 Carta de Doação</div><div class="stat-label">O que o donatário devia fazer</div></div>
+          <div class="stat-box"><div style="font-size:.85rem;color:#FFD166;font-weight:800">📜 Carta Foral</div><div class="stat-label">Direitos e impostos de todos</div></div>
+        </div>
+      </div>
+      <div class="card card-accent-hist">
+        <h3>🏆 Quem teve sucesso?</h3>
+        <div class="success">⭐ <b>Pernambuco</b> (Duarte Coelho) — boa administração + amizade com índios + cana</div>
+        <div class="success">⭐ <b>São Vicente</b> (Martim Afonso) — ajuda da Coroa + cana</div>
+        <div class="warn">❌ As outras 12... — falta de dinheiro, índios hostis, território enorme, sem coordenação central!</div>
+      </div>
+      <div class="tip">🔑 NÃO foi feudalismo! Donatários obedeciam ao rei absolutista — eram agentes do rei, não senhores independentes. Extintas em 1759 por Pombal.</div>
+    </div>
+
+    <!-- GOV GERAL -->
+    <div class="section-block" id="hist-govgeral">
+      <div class="sec-title" style="color:var(--hist)">👑 Governo-Geral (1549)</div>
+      <div class="card card-accent-hist">
+        <h3>🛠️ Por que criaram?</h3>
+        <p>Capitanias viraram bagunça sem coordenação. D. João III criou o Governo-Geral para <b>CENTRALIZAR</b> o poder!</p>
+        <div style="background:var(--card2);border-radius:10px;padding:12px;text-align:center;margin:8px 0">
+          <div style="border:1.5px solid rgba(255,215,0,.4);border-radius:8px;padding:7px;display:inline-block;font-family:'Fredoka One',cursive;color:#FFD166;margin-bottom:6px">👑 REI</div>
+          <div style="color:var(--hist);font-size:1.2rem">↓</div>
+          <div style="border:1.5px solid rgba(0,179,126,.4);border-radius:8px;padding:7px;display:inline-block;font-family:'Fredoka One',cursive;color:var(--hist);margin-bottom:6px">🏛️ Governador-Geral</div>
+          <div style="color:var(--hist);font-size:1.2rem">↓</div>
+          <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap">
+            <div style="background:rgba(0,154,199,.15);border-radius:8px;padding:6px 8px;font-size:.72rem;color:#BAE6FD">⚖️ Ouvidor-Mor<br>Justiça</div>
+            <div style="background:rgba(0,154,199,.15);border-radius:8px;padding:6px 8px;font-size:.72rem;color:#BAE6FD">💰 Provedor-Mor<br>Finanças</div>
+            <div style="background:rgba(0,154,199,.15);border-radius:8px;padding:6px 8px;font-size:.72rem;color:#BAE6FD">🛡️ Capitão-Mor<br>Defesa</div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="acc-header open" onclick="toggleAcc(this)">
+          <span class="acc-title">👤 Os 3 Primeiros Governadores</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body open">
+          <div class="acc-inner">
+            <div class="tl">
+              <div class="tl-row"><div class="tl-dot hist"></div><div class="tl-year">1º Tomé de Sousa (1549–1553)</div><div class="tl-desc">Fundou Salvador · Trouxe jesuítas e Padre Nóbrega · 1º colégio do Brasil · 1º bispado (1551)</div></div>
+              <div class="tl-row"><div class="tl-dot hist"></div><div class="tl-year">2º Duarte da Costa (1553–1558)</div><div class="tl-desc">1555: Franceses invadem RJ (França Antártica!) · Jesuítas fundam São Paulo (1554)</div></div>
+              <div class="tl-row"><div class="tl-dot hist"></div><div class="tl-year">3º Mem de Sá (1558–1572)</div><div class="tl-desc">Sobrinho Estácio de Sá funda RJ (1565) · Expulsa franceses de vez (1567) · Aliança com índio Arariboia</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ECONOMIA -->
+    <div class="section-block" id="hist-economia">
+      <div class="sec-title" style="color:var(--hist)">🌾 Economia Colonial</div>
+      <div class="card card-accent-hist">
+        <h3>📋 Características gerais</h3>
+        <ul class="lst hist">
+          <li><b>Complementar:</b> produzia o que a Europa precisava</li>
+          <li><b>Extrovertida:</b> tudo para exportar</li>
+          <li><b>Monocultora:</b> um produto por vez</li>
+          <li><b>Latifundiária:</b> terras gigantes, poucos donos</li>
+          <li><b>Escravista:</b> mão de obra forçada</li>
+          <li><b>Predatória:</b> destruía a natureza</li>
+        </ul>
+      </div>
+      <div class="accordion">
+        <div class="acc-header open" onclick="toggleAcc(this)">
+          <span class="acc-title">🍬 Cana-de-Açúcar</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body open">
+          <div class="acc-inner">
+            <div class="stats-row">
+              <div class="stat-box" style="border:1.5px solid rgba(0,179,126,.3)">
+                <div style="font-size:.8rem;color:var(--hist);font-weight:800">✅ Por que deu certo?</div>
+                <div class="stat-label">Europa pagava bem · Holandeses financiavam · Solo nordestino (massapê) perfeito</div>
+              </div>
+              <div class="stat-box" style="border:1.5px solid rgba(239,71,111,.3)">
+                <div style="font-size:.8rem;color:#EF476F;font-weight:800">❌ Por que decaiu?</div>
+                <div class="stat-label">Antilhas produziram mais barato · Holandeses expulsos em 1654 levaram tecnologia</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card card-accent-hist">
+        <h3>⛓️ Escravidão</h3>
+        <div class="stats-row">
+          <div class="stat-box"><div style="color:var(--hist);font-weight:800;font-size:.82rem">🏹 Indígena</div><div class="stat-label">Desde o início. Jesuítas eram contra! Abolida em 1758 por Pombal.</div></div>
+          <div class="stat-box"><div style="color:#EF476F;font-weight:800;font-size:.82rem">🌍 Africana</div><div class="stat-label">Mais intensa a partir de 1550. 3,5 milhões de africanos até 1850!</div></div>
+        </div>
+        <div class="warn">⚠️ Portugal escolheu a escravidão africana não porque fosse mais produtiva — mas porque o tráfico era <b>extremamente lucrativo</b>!</div>
+      </div>
+    </div>
+
+    <!-- UNIÃO IBÉRICA -->
+    <div class="section-block" id="hist-uniao">
+      <div class="sec-title" style="color:var(--hist)">⚔️ União Ibérica (1580–1640)</div>
+      <div class="card card-accent-hist">
+        <h3>👑 Como Portugal virou "espanhol"?</h3>
+        <p>D. Sebastião morreu em 1578 sem filhos. O Cardeal D. Henrique morreu depois sem herdeiros. Felipe II da Espanha era o parente mais próximo → invadiu Portugal com o Duque de Alba em 1580!</p>
+        <div class="formula">Portugal + Espanha = 1580 a 1640</div>
+        <div class="warn">⚠️ NÃO foi fusão total — Portugal manteve suas leis. Mas sofreu muito economicamente!</div>
+      </div>
+      <div class="card card-accent-hist">
+        <h3>😱 Consequências para o Brasil</h3>
+        <ul class="lst hist">
+          <li>Portos fechados para holandeses → invasões!</li>
+          <li>Limites de Tordesilhas suspensos (Brasil cresceu!)</li>
+          <li>Tráfico negreiro interrompido → mais escravidão indígena</li>
+          <li>Derrota da "Invencível Armada" (1588) enfraqueceu Portugal</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- INVASÕES -->
+    <div class="section-block" id="hist-invasoes">
+      <div class="sec-title" style="color:var(--hist)">🚢 Invasões Estrangeiras</div>
+      <div class="tip">🔑 Tordesilhas (1494) só dividiu o mundo entre Espanha e Portugal — Inglaterra, França e Holanda ficaram de fora e ficaram FURIOSAS!</div>
+      <div class="accordion">
+        <div class="acc-header open" onclick="toggleAcc(this)">
+          <span class="acc-title">🇬🇧 Ingleses</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body open">
+          <div class="acc-inner">
+            <table class="tbl">
+              <tr><th>Ano</th><th>Quem/O quê</th></tr>
+              <tr><td>1583</td><td>Fenton entra em Santos — repelido</td></tr>
+              <tr><td>1586</td><td>Cavendish saqueia Santos na noite de Natal 🎄</td></tr>
+              <tr><td>1595</td><td>Lancaster saqueia Recife com sucesso!</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <span class="acc-title">🇫🇷 Franceses — tentaram colonizar!</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <div class="card" style="border-left:3px solid #0077B6;background:var(--card2)">
+              <div style="color:#60A5FA;font-family:'Fredoka One',cursive;font-size:.9rem;margin-bottom:4px">🌊 França Antártica — RJ (1555–1567)</div>
+              <p style="font-size:.8rem">Villegaignon com ~600 pessoas (+ huguenotes) na Baía de Guanabara. Apoio dos índios tamoios. Expulsos por Mem de Sá em 1567.</p>
+            </div>
+            <div class="card" style="border-left:3px solid #F4A261;background:var(--card2);margin-top:8px">
+              <div style="color:#FDBA74;font-family:'Fredoka One',cursive;font-size:.9rem;margin-bottom:4px">🌿 França Equinocial — MA (1612–1615)</div>
+              <p style="font-size:.8rem">Daniel de La Touche funda o Forte de São Luís (atual capital do MA!). Expulsos em 1615.</p>
+            </div>
+            <div class="success" style="margin-top:8px">🏙️ Para expulsar os franceses, os portugueses fundaram: <b>João Pessoa (PB), Natal (RN), Fortaleza (CE)</b>!</div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <span class="acc-title">🇳🇱 Holandeses — os mais sérios!</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <div class="stats-row">
+              <div class="stat-box" style="border:1.5px solid rgba(244,162,97,.3)">
+                <div style="font-size:.8rem;font-weight:800;color:#FDBA74;margin-bottom:4px">⚔️ Bahia (1624–25)</div>
+                <div class="stat-label">26 navios, 3.300 soldados. WIC toma Salvador. Expulsos em 1625 — "Jornada dos Vassalos"!</div>
+              </div>
+              <div class="stat-box" style="border:1.5px solid rgba(239,71,111,.3)">
+                <div style="font-size:.8rem;font-weight:800;color:#FCA5A5;margin-bottom:4px">⚔️ Pernambuco (1630–54)</div>
+                <div class="stat-label">56 navios, 7.300 soldados! Arraial do Bom Jesus resiste. Calabar trai em 1632. Nassau governa a partir de 1637.</div>
+              </div>
+            </div>
+            <div class="warn">⚠️ <b>Calabar:</b> traiu em 1632, delatou o Arraial do Bom Jesus para os holandeses.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== PAGE: POPULAÇÃO/GEO ======================== -->
+  <div class="page" id="page-pop">
+    <div class="chips">
+      <div class="chip chip-pop active" onclick="switchSection('pop','sociedade',this)">👥 Sociedade</div>
+      <div class="chip chip-pop" onclick="switchSection('pop','etnia',this)">🌈 Etnias</div>
+      <div class="chip chip-pop" onclick="switchSection('pop','populacao',this)">📊 Pop.</div>
+      <div class="chip chip-pop" onclick="switchSection('pop','crescimento',this)">📈 Crescimento</div>
+      <div class="chip chip-pop" onclick="switchSection('pop','estrutura',this)">🏛️ Estrutura</div>
+      <div class="chip chip-pop" onclick="switchSection('pop','pea',this)">💼 PEA</div>
+      <div class="chip chip-pop" onclick="switchSection('pop','territorio',this)">🗺️ Território</div>
+      <div class="chip chip-pop" onclick="switchSection('pop','fusos',this)">🕐 Fusos</div>
+      <div class="chip chip-pop" onclick="switchSection('pop','poderes',this)">⚖️ Poderes</div>
+    </div>
+
+    <!-- SOCIEDADE -->
+    <div class="section-block active" id="pop-sociedade">
+      <div class="sec-title" style="color:var(--pop)">👥 Formação da Sociedade</div>
+      <div class="card card-accent-pop">
+        <h3>🌍 O caldeirão brasileiro</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:8px 0">
+          <div style="background:var(--card2);border-radius:10px;padding:10px;text-align:center;border:1px solid rgba(0,119,182,.3)">
+            <div style="font-size:1.3rem">🏹</div>
+            <div style="font-size:.72rem;font-weight:800;color:#7DD3FC;margin-top:3px">Indígenas</div>
+          </div>
+          <div style="background:var(--card2);border-radius:10px;padding:10px;text-align:center;border:1px solid rgba(255,255,255,.15)">
+            <div style="font-size:1.3rem">⛵</div>
+            <div style="font-size:.72rem;font-weight:800;color:#E2E8F0;margin-top:3px">Portugueses</div>
+          </div>
+          <div style="background:var(--card2);border-radius:10px;padding:10px;text-align:center;border:1px solid rgba(239,71,111,.3)">
+            <div style="font-size:1.3rem">🌍</div>
+            <div style="font-size:.72rem;font-weight:800;color:#FCA5A5;margin-top:3px">Africanos</div>
+          </div>
+        </div>
+        <div class="tip">🚢 Depois: alemães, italianos, japoneses, poloneses, sírios... Cada um trouxe sua cultura!</div>
+      </div>
+      <div class="card card-accent-pop">
+        <h3>🏘️ Pirâmide Social Colonial</h3>
+        <div class="pyramid">
+          <div class="pyr-row" style="width:60%;background:rgba(255,209,102,.2);border:1.5px solid rgba(255,209,102,.4);color:#FDE68A">👑 Senhores de Engenho</div>
+          <div class="pyr-row" style="width:80%;background:rgba(0,180,216,.1);border:1.5px solid rgba(0,180,216,.3);color:#BAE6FD">🥈 Homens livres, mestiços, comerciantes</div>
+          <div class="pyr-row" style="width:100%;background:rgba(239,71,111,.1);border:1.5px solid rgba(239,71,111,.3);color:#FCA5A5">⛓️ Escravizados (base)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ETNIA -->
+    <div class="section-block" id="pop-etnia">
+      <div class="sec-title" style="color:var(--pop)">🌈 Diversidade Étnica</div>
+      <div class="card card-accent-pop">
+        <h3>📊 Censo IBGE 2022</h3>
+        <div style="margin:8px 0">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <div style="font-size:.82rem;color:#CBD5E0;width:70px">🟤 Pardos</div>
+            <div class="prog-bar" style="flex:1"><div class="prog-fill" style="width:45.3%;background:linear-gradient(90deg,#92400e,#d97706)"></div></div>
+            <div style="font-size:.82rem;font-weight:800;color:#FDE68A;width:40px">45,3%</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <div style="font-size:.82rem;color:#CBD5E0;width:70px">⬜ Brancos</div>
+            <div class="prog-bar" style="flex:1"><div class="prog-fill" style="width:43.5%;background:linear-gradient(90deg,#6b7280,#e5e7eb)"></div></div>
+            <div style="font-size:.82rem;font-weight:800;color:#E2E8F0;width:40px">43,5%</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <div style="font-size:.82rem;color:#CBD5E0;width:70px">⬛ Pretos</div>
+            <div class="prog-bar" style="flex:1"><div class="prog-fill" style="width:10.2%;background:linear-gradient(90deg,#1c1917,#57534e)"></div></div>
+            <div style="font-size:.82rem;font-weight:800;color:#CBD5E0;width:40px">10,2%</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="font-size:.82rem;color:#CBD5E0;width:70px">🏹 Indíg.</div>
+            <div class="prog-bar" style="flex:1"><div class="prog-fill" style="width:0.4%;background:var(--pop)"></div></div>
+            <div style="font-size:.82rem;font-weight:800;color:#7DD3FC;width:40px">0,4%</div>
+          </div>
+        </div>
+        <div class="tip">💡 Em 2022, pardos são maioria pela 1ª vez desde 1991!</div>
+      </div>
+      <div class="card card-accent-pop">
+        <h3>🗺️ Por Região</h3>
+        <table class="tbl">
+          <tr><th>Região</th><th>Destaque</th></tr>
+          <tr><td>Sul</td><td style="color:#BAE6FD">72,6% brancos (maior %)</td></tr>
+          <tr><td>Norte</td><td style="color:#FDE68A">67,2% pardos (maior %)</td></tr>
+          <tr><td>Nordeste</td><td style="color:#FCA5A5">13% pretos (maior %) + 59,6% pardos</td></tr>
+        </table>
+        <div class="warn">🔑 Macete: Sul=BRANCO | Norte e Nordeste=PARDO | Nordeste=mais PRETOS</div>
+      </div>
+    </div>
+
+    <!-- POPULAÇÃO -->
+    <div class="section-block" id="pop-populacao">
+      <div class="sec-title" style="color:var(--pop)">📊 População do Brasil</div>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-num">203 mi</div><div class="stat-label">habitantes (2022)</div></div>
+        <div class="stat-box"><div class="stat-num">7º</div><div class="stat-label">mais populoso do mundo</div></div>
+        <div class="stat-box"><div class="stat-num">23,86</div><div class="stat-label">hab/km² — POUCO POVOADO</div></div>
+        <div class="stat-box"><div class="stat-num">8,51mi</div><div class="stat-label">km² — 5º maior do mundo</div></div>
+      </div>
+      <div class="warn">⚠️ Diferença importante!<br><b>POPULOSO</b> = quantidade de pessoas<br><b>POVOADO</b> = densidade (hab/km²)<br>O Brasil é muito populoso mas pouco povoado!</div>
+      <div class="card card-accent-pop">
+        <h3>📊 Regiões</h3>
+        <table class="tbl">
+          <tr><th>Região</th><th>Pop.</th><th>Dens.</th></tr>
+          <tr><td>Sudeste</td><td style="color:#FFD166">84,8mi (maior!)</td><td style="color:#FFD166">91,77 (maior!)</td></tr>
+          <tr><td>Nordeste</td><td>54,6mi</td><td>35,21</td></tr>
+          <tr><td>Sul</td><td>29,9mi</td><td>51,90</td></tr>
+          <tr><td>Norte</td><td>17,3mi</td><td style="color:#FCA5A5">4,51 (menos densa!)</td></tr>
+          <tr><td>Centro-Oeste</td><td style="color:#FCA5A5">16,2mi (menos pop!)</td><td>10,14</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- CRESCIMENTO -->
+    <div class="section-block" id="pop-crescimento">
+      <div class="sec-title" style="color:var(--pop)">📈 Crescimento Populacional</div>
+      <div class="card card-accent-pop">
+        <h3>📉 Taxa de Fecundidade — Caindo!</h3>
+        <div style="display:flex;gap:6px;overflow-x:auto;padding:4px 0">
+          <div style="background:rgba(239,71,111,.15);border-radius:8px;padding:8px;text-align:center;flex-shrink:0;min-width:65px">
+            <div style="font-family:'Fredoka One',cursive;color:#FCA5A5;font-size:1.1rem">6</div>
+            <div style="font-size:.68rem;color:var(--subtle)">1960</div>
+          </div>
+          <div style="background:rgba(255,209,102,.1);border-radius:8px;padding:8px;text-align:center;flex-shrink:0;min-width:65px">
+            <div style="font-family:'Fredoka One',cursive;color:#FDE68A;font-size:1.1rem">4</div>
+            <div style="font-size:.68rem;color:var(--subtle)">1980</div>
+          </div>
+          <div style="background:rgba(0,180,216,.1);border-radius:8px;padding:8px;text-align:center;flex-shrink:0;min-width:65px">
+            <div style="font-family:'Fredoka One',cursive;color:#BAE6FD;font-size:1.1rem">2,2</div>
+            <div style="font-size:.68rem;color:var(--subtle)">2000</div>
+          </div>
+          <div style="background:rgba(45,198,83,.1);border-radius:8px;padding:8px;text-align:center;flex-shrink:0;min-width:65px">
+            <div style="font-family:'Fredoka One',cursive;color:#A7F3D0;font-size:1.1rem">1,55</div>
+            <div style="font-size:.68rem;color:var(--subtle)">2022 ⚠️</div>
+          </div>
+        </div>
+        <div class="warn" style="margin-top:8px">Nível de reposição = <b>2,1 filhos</b>. O Brasil está ABAIXO! A população vai encolher no futuro.</div>
+      </div>
+      <div class="formula">Crescimento Vegetativo = Natalidade − Mortalidade</div>
+      <div class="card card-accent-pop">
+        <h3>💉 Por que a mortalidade caiu?</h3>
+        <ul class="lst pop">
+          <li>Avanços da medicina e hospitais</li>
+          <li>Campanhas de vacinação</li>
+          <li>Saneamento básico</li>
+        </ul>
+        <div class="warn">⚠️ 2020-2021: mortalidade CRESCEU por causa da COVID-19 (700 mil mortes!)</div>
+      </div>
+    </div>
+
+    <!-- ESTRUTURA -->
+    <div class="section-block" id="pop-estrutura">
+      <div class="sec-title" style="color:var(--pop)">🏛️ Estrutura Etária</div>
+      <div class="stats-row">
+        <div class="stat-box" style="border:1.5px solid rgba(0,180,216,.3)"><div class="stat-num">15,1%</div><div class="stat-label">Idosos 60+ (subindo!)</div></div>
+        <div class="stat-box" style="border:1.5px solid rgba(239,71,111,.3)"><div class="stat-num">19,8%</div><div class="stat-label">Jovens 0–14 (caindo!)</div></div>
+        <div class="stat-box" style="border:1.5px solid rgba(255,209,102,.3)"><div class="stat-num">35 anos</div><div class="stat-label">Idade mediana do Brasil (2022)</div></div>
+        <div class="stat-box" style="border:1.5px solid rgba(45,198,83,.3)"><div class="stat-num">75,5</div><div class="stat-label">anos de expectativa de vida</div></div>
+      </div>
+      <div class="card card-accent-pop">
+        <h3>🎁 Bônus Demográfico</h3>
+        <p>Quando há mais adultos (produtivos) do que jovens e idosos (dependentes) — é a melhor fase para crescer economicamente!</p>
+        <div class="warn">⚠️ O Brasil está <b>perdendo</b> o bônus demográfico! A janela fecha em ~2037 e o país não aproveitou suficientemente!</div>
+      </div>
+    </div>
+
+    <!-- PEA -->
+    <div class="section-block" id="pop-pea">
+      <div class="sec-title" style="color:var(--pop)">💼 PEA — Quem Trabalha</div>
+      <div class="card card-accent-pop">
+        <h3>📊 Setores da Economia</h3>
+        <table class="tbl">
+          <tr><th>Setor</th><th>O que é</th><th>1960 → 2010</th></tr>
+          <tr><td style="color:#A7F3D0">🌾 Primário</td><td>Agro/Pesca</td><td>54% → 17% ↓</td></tr>
+          <tr><td style="color:#BAE6FD">🏭 Secundário</td><td>Indústria</td><td>13% → 22% →</td></tr>
+          <tr><td style="color:#FDE68A">🏪 Terciário</td><td>Serviços</td><td>33% → 61% ↑</td></tr>
+        </table>
+        <div class="tip">🔑 <b>Terciarização</b> = crescimento dos serviços. Absorve tanto médicos (alta qualif.) quanto camelôs (baixa qualif.) — muitos vão pro setor <b>informal</b>!</div>
+      </div>
+      <div class="card card-accent-pop">
+        <h3>⚖️ Desigualdade Salarial (2019)</h3>
+        <div class="stats-row">
+          <div class="stat-box" style="border:1.5px solid rgba(239,71,111,.3)">
+            <div style="font-size:.78rem;color:#FCA5A5;font-weight:800">🚺 Gênero</div>
+            <div class="stat-label">Homens: R$2.555<br>Mulheres: R$1.985<br>= 77,7% do salário masculino</div>
+          </div>
+          <div class="stat-box" style="border:1.5px solid rgba(255,209,102,.3)">
+            <div style="font-size:.78rem;color:#FDE68A;font-weight:800">✊ Raça</div>
+            <div class="stat-label">Brancos: R$2.999<br>Pardos: R$1.719<br>Pretos: R$1.673</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TERRITÓRIO -->
+    <div class="section-block" id="pop-territorio">
+      <div class="sec-title" style="color:var(--pop)">🗺️ Território e Divisão Política</div>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-num">5º</div><div class="stat-label">maior país do mundo (8,51mi km²)</div></div>
+        <div class="stat-box"><div class="stat-num">26+DF</div><div class="stat-label">estados (+ novos: TO, RR, AP — Const. 1988)</div></div>
+      </div>
+      <div class="card card-accent-pop">
+        <h3>🗓️ Evolução da Divisão Regional</h3>
+        <div class="tl">
+          <div class="tl-row"><div class="tl-dot pop"></div><div class="tl-year">1913</div><div class="tl-desc">1ª proposta: 5 regiões geográficas</div></div>
+          <div class="tl-row"><div class="tl-dot pop"></div><div class="tl-year">1940</div><div class="tl-desc">IBGE: critérios físicos + socioeconômicos</div></div>
+          <div class="tl-row"><div class="tl-dot pop"></div><div class="tl-year">1969</div><div class="tl-desc">Nasce o <b>Sudeste!</b> SP+RJ+MG+ES agrupados</div></div>
+          <div class="tl-row"><div class="tl-dot pop"></div><div class="tl-year">1990</div><div class="tl-desc">Divisão atual: TO criado, RR/AP/RO viram estados</div></div>
+        </div>
+      </div>
+      <div class="tip">🧑‍🏫 <b>Milton Santos</b> propôs divisão pelo nível tecnológico: Amazônia, Nordeste, Centro-Oeste e Sudeste Concentrado.</div>
+    </div>
+
+    <!-- FUSOS -->
+    <div class="section-block" id="pop-fusos">
+      <div class="sec-title" style="color:var(--pop)">🕐 Fusos Horários</div>
+      <div class="tip">🔑 A cada 15° de longitude = 1 hora de diferença. Brasil tem mais de 4.000km leste-oeste → 4 fusos!</div>
+      <div class="fuso-row">
+        <div class="fuso-box" style="border-color:rgba(255,209,102,.4)">
+          <div class="fuso-num" style="color:#FFD166">1º Fuso</div>
+          <div class="fuso-gmt" style="color:#FFD166">GMT -2h | +1h Brasília</div>
+          <div class="fuso-est">🏝️ Ilhas oceânicas (Fernando de Noronha, Trindade, Martim Vaz...)</div>
+        </div>
+        <div class="fuso-box" style="border-color:rgba(0,180,216,.4)">
+          <div class="fuso-num" style="color:#00B4D8">2º Fuso</div>
+          <div class="fuso-gmt" style="color:#00B4D8">GMT -3h = BRASÍLIA ⭐</div>
+          <div class="fuso-est">Nordeste, SE, Sul, GO, TO, PA, AP, DF</div>
+        </div>
+        <div class="fuso-box" style="border-color:rgba(45,198,83,.4)">
+          <div class="fuso-num" style="color:#2DC653">3º Fuso</div>
+          <div class="fuso-gmt" style="color:#2DC653">GMT -4h | -1h Brasília</div>
+          <div class="fuso-est">MT, MS, RO, AM e RR</div>
+        </div>
+        <div class="fuso-box" style="border-color:rgba(239,71,111,.4)">
+          <div class="fuso-num" style="color:#EF476F">4º Fuso</div>
+          <div class="fuso-gmt" style="color:#EF476F">GMT -5h | -2h Brasília</div>
+          <div class="fuso-est">Acre e oeste do Amazonas</div>
+        </div>
+      </div>
+      <div class="card card-accent-pop">
+        <h3>🧮 Resolver questão de fuso</h3>
+        <div class="success">📝 <b>Exemplo:</b> Saindo de Fernando de Noronha (GMT-2) às 7h para Campo Grande-MS (GMT-4), viagem de 6h30min.<br><br>
+        1️⃣ CG está 2h atrasado em relação a Noronha<br>
+        2️⃣ Partida 7h (Noronha) = 5h no horário de CG<br>
+        3️⃣ Chegada = 5h + 6h30 = <b>11h30 em Campo Grande!</b></div>
+      </div>
+    </div>
+
+    <!-- PODERES -->
+    <div class="section-block" id="pop-poderes">
+      <div class="sec-title" style="color:var(--pop)">⚖️ Os Três Poderes</div>
+      <div class="poder-row">
+        <div class="poder-box" style="background:rgba(255,209,102,.07)">
+          <div class="poder-emoji">🏛️</div>
+          <div class="poder-title" style="color:#FFD166">Executivo</div>
+          <div class="poder-desc">Administra<br>Pres.+Gov.+Pref.</div>
+        </div>
+        <div class="poder-box" style="background:rgba(0,180,216,.07)">
+          <div class="poder-emoji">📜</div>
+          <div class="poder-title" style="color:#00B4D8">Legislativo</div>
+          <div class="poder-desc">Faz as leis<br>Câmara+Senado</div>
+        </div>
+        <div class="poder-box" style="background:rgba(45,198,83,.07)">
+          <div class="poder-emoji">⚖️</div>
+          <div class="poder-title" style="color:#2DC653">Judiciário</div>
+          <div class="poder-desc">Aplica as leis<br>STF + Juízes</div>
+        </div>
+      </div>
+      <div class="card card-accent-pop">
+        <h3>🏛️ Câmara vs Senado</h3>
+        <div class="stats-row">
+          <div class="stat-box" style="border:1.5px solid rgba(0,180,216,.3)">
+            <div style="color:#00B4D8;font-weight:800;font-size:.82rem">Senado</div>
+            <div class="stat-label"><b style="color:#E2E8F0">81 senadores</b><br>3 por estado (todos iguais!)<br>Representa os ESTADOS</div>
+          </div>
+          <div class="stat-box" style="border:1.5px solid rgba(255,209,102,.3)">
+            <div style="color:#FFD166;font-weight:800;font-size:.82rem">Câmara</div>
+            <div class="stat-label"><b style="color:#E2E8F0">513 deputados</b><br>Proporcional à pop.<br>Mín:8 / Máx:70 (SP)<br>Representa o POVO</div>
+          </div>
+        </div>
+      </div>
+      <div class="card card-accent-pop">
+        <h3>📜 Constituição de 1988</h3>
+        <p>A "Constituição Cidadã" — 5 de outubro de 1988, fim da ditadura!</p>
+        <ul class="lst pop">
+          <li>Racismo = crime inafiançável e imprescritível (pena de prisão!)</li>
+          <li>Saúde universal (SUS) e educação para todos</li>
+          <li>Proíbe discriminação por etnia, cor, gênero, idade e origem</li>
+          <li>Criou TO, RR e AP como estados</li>
+          <li>Federalismo tripartite: União + Estados + Municípios</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end content-wrapper -->
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="bnav-item active-geo" id="bnav-geo" onclick="switchMateria('geo', null)">
+    <span class="bnav-icon">📐</span>
+    <span class="bnav-label">Geometria</span>
+  </button>
+  <button class="bnav-item" id="bnav-hist" onclick="switchMateria('hist', null)">
+    <span class="bnav-icon">🇧🇷</span>
+    <span class="bnav-label">História</span>
+  </button>
+  <button class="bnav-item" id="bnav-pop" onclick="switchMateria('pop', null)">
+    <span class="bnav-icon">📊</span>
+    <span class="bnav-label">Geo/Pop</span>
+  </button>
+</nav>
+
+<script>
+  const titles = { geo: 'Geometria Plana', hist: 'História do Brasil', pop: 'Geo. da População' };
+  let currentMateria = 'geo';
+
+  function switchMateria(mat, tabEl) {
+    // update pages
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + mat).classList.add('active');
+
+    // update bottom nav
+    document.querySelectorAll('.bnav-item').forEach(b => {
+      b.className = 'bnav-item';
+    });
+    document.getElementById('bnav-' + mat).classList.add('active-' + mat);
+
+    // update tabs
+    document.querySelectorAll('.mtab').forEach(t => {
+      t.className = 'mtab';
+    });
+    const tabs = document.querySelectorAll('.mtab');
+    const idx = mat === 'geo' ? 0 : mat === 'hist' ? 1 : 2;
+    tabs[idx].classList.add('active-' + mat);
+
+    // update topbar
+    document.getElementById('topbar-sub').textContent = titles[mat];
+    currentMateria = mat;
+
+    // scroll to top
+    document.getElementById('page-' + mat).scrollTop = 0;
+  }
+
+  function switchSection(mat, sec, chipEl) {
+    const page = document.getElementById('page-' + mat);
+    page.querySelectorAll('.section-block').forEach(s => s.classList.remove('active'));
+    document.getElementById(mat + '-' + sec).classList.add('active');
+    page.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    chipEl.classList.add('active');
+    document.getElementById('page-' + mat).scrollTop = 0;
+  }
+
+  function toggleAcc(header) {
+    const body = header.nextElementSibling;
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    header.classList.toggle('open', !isOpen);
+  }
+</script>
+</body>
+</html>
