@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -7,7 +6,7 @@
 <title>Guia de Estudos</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--geo:#9B5DE5;--hist:#00B37E;--pop:#0077B6;--bio:#E05C00;--bg:#0A0A12;--card:#13131F;--card2:#1A1A2A;--text:#E8E8FF;--muted:#8888AA;--nav:62px}
+:root{--geo:#9B5DE5;--hist:#00B37E;--pop:#0077B6;--bio:#E05C00;--fis:#C2185B;--bg:#0A0A12;--card:#13131F;--card2:#1A1A2A;--text:#E8E8FF;--muted:#8888AA;--nav:62px}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column}
 .topbar{background:var(--card);border-bottom:1px solid rgba(255,255,255,.07);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
@@ -20,6 +19,7 @@ html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif;background
 .mtab.on-hist{color:var(--hist);border-bottom-color:var(--hist)}
 .mtab.on-pop{color:var(--pop);border-bottom-color:var(--pop)}
 .mtab.on-bio{color:var(--bio);border-bottom-color:var(--bio)}
+.mtab.on-fis{color:var(--fis);border-bottom-color:var(--fis)}
 .pages{flex:1;overflow:hidden;position:relative}
 .page{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:10px 12px calc(var(--nav) + 10px);display:none;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .page::-webkit-scrollbar{display:none}
@@ -32,6 +32,7 @@ html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif;background
 .bitem.on-hist .blbl{color:var(--hist)}
 .bitem.on-pop .blbl{color:var(--pop)}
 .bitem.on-bio .blbl{color:var(--bio)}
+.bitem.on-fis .blbl{color:var(--fis)}
 .chips{display:flex;gap:6px;overflow-x:auto;padding:8px 0 10px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
 .chip{background:var(--card2);border:1.5px solid rgba(255,255,255,.1);border-radius:20px;padding:5px 12px;font-size:.72rem;font-weight:800;color:var(--muted);white-space:nowrap;cursor:pointer;flex-shrink:0}
@@ -39,6 +40,8 @@ html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif;background
 .chip.sel-hist{color:var(--hist);border-color:var(--hist);background:rgba(0,179,126,.1)}
 .chip.sel-pop{color:var(--pop);border-color:var(--pop);background:rgba(0,119,182,.1)}
 .chip.sel-bio{color:var(--bio);border-color:var(--bio);background:rgba(224,92,0,.1)}
+.chip.sel-fis{color:var(--fis);border-color:var(--fis);background:rgba(194,24,91,.1)}
+.l-fis{border-left:4px solid var(--fis)}
 .sec{display:none}
 .sec.show{display:block}
 .sec-title{font-family:'Fredoka One',cursive;font-size:1.05rem;padding:4px 0 10px}
@@ -84,6 +87,7 @@ ul.lst li::before{content:'›';position:absolute;left:3px;font-weight:900}
 .lst-hist li::before{color:var(--hist)}
 .lst-pop li::before{color:var(--pop)}
 .lst-bio li::before{color:var(--bio)}
+.lst-fis li::before{color:var(--fis)}
 .pyr{display:flex;flex-direction:column;gap:4px;align-items:center;margin:10px 0}
 .pyr-row{display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:.73rem;font-weight:800;height:34px}
 .bpair{display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 0}
@@ -107,12 +111,12 @@ ul.lst li::before{content:'›';position:absolute;left:3px;font-weight:900}
   <div class="mtab" onclick="goMateria('hist',this)">🇧🇷 Historia</div>
   <div class="mtab" onclick="goMateria('pop',this)">📊 Geo/Pop</div>
   <div class="mtab" onclick="goMateria('bio',this)">🧬 Biologia</div>
+  <div class="mtab" onclick="goMateria('fis',this)">⚛️ Fis/Quim</div>
 </div>
 
 <div class="pages">
 
 <!-- GEOMETRIA -->
-
 <div class="page show" id="pg-geo">
   <div class="chips" id="ch-geo">
     <div class="chip sel-geo" onclick="goSec('geo','intro',this)">📍 Intro</div>
@@ -262,7 +266,6 @@ ul.lst li::before{content:'›';position:absolute;left:3px;font-weight:900}
 </div>
 
 <!-- HISTORIA -->
-
 <div class="page" id="pg-hist">
   <div class="chips" id="ch-hist">
     <div class="chip sel-hist" onclick="goSec('hist','pre',this)">Pre-Colonial</div>
@@ -444,7 +447,6 @@ ul.lst li::before{content:'›';position:absolute;left:3px;font-weight:900}
 </div>
 
 <!-- GEO/POP -->
-
 <div class="page" id="pg-pop">
   <div class="chips" id="ch-pop">
     <div class="chip sel-pop" onclick="goSec('pop','soc',this)">Sociedade</div>
@@ -626,7 +628,6 @@ ul.lst li::before{content:'›';position:absolute;left:3px;font-weight:900}
 </div>
 
 <!-- BIOLOGIA -->
-
 <div class="page" id="pg-bio">
   <div class="chips" id="ch-bio">
     <div class="chip sel-bio" onclick="goSec('bio','gene',this)">1. Gene</div>
@@ -948,6 +949,187 @@ ul.lst li::before{content:'›';position:absolute;left:3px;font-weight:900}
 
 </div><!-- fim .pages -->
 
+<!-- FISICA/QUIMICA -->
+<div class="page" id="pg-fis" style="display:none">
+  <div class="chips" id="ch-fis">
+    <div class="chip sel-fis" onclick="goSec('fis','big',this)">💥 Big Bang</div>
+    <div class="chip" onclick="goSec('fis','ele',this)">⚗️ Elementos Pesados</div>
+    <div class="chip" onclick="goSec('fis','par',this)">⚛️ Particulas</div>
+    <div class="chip" onclick="goSec('fis','mol',this)">🔢 Mol</div>
+  </div>
+
+  <!-- BIG BANG -->
+  <div class="sec show" id="fis-big">
+    <div class="sec-title" style="color:var(--fis)">💥 Teoria do Big Bang</div>
+    <div class="card l-fis">
+      <h3>O que e o Big Bang?</h3>
+      <p>E a teoria cientifica mais aceita sobre a origem do universo. Tudo que existe — espaco, tempo, materia e energia — surgiu de um unico ponto extremamente quente e denso ha cerca de <b>13,8 bilhoes de anos</b>, numa expansao violenta!</p>
+      <div class="box">Universo = 13,8 bilhoes de anos</div>
+      <div class="tip">Nao foi uma explosao no espaco — foi o proprio espaco se expandindo a partir de um ponto!</div>
+    </div>
+    <div class="card l-fis">
+      <h3>Como aconteceu? (linha do tempo)</h3>
+      <div class="tl">
+        <div class="tl-row"><div class="tl-dot" style="border-color:var(--fis)"></div><div class="tl-yr">10⁻⁴³ segundos — Era de Planck</div><div class="tl-tx">Universo minusculo, temperatura e densidade infinitas. As 4 forcas fundamentais eram uma so.</div></div>
+        <div class="tl-row"><div class="tl-dot" style="border-color:var(--fis)"></div><div class="tl-yr">10⁻³⁶ s — Inflacao cosmica</div><div class="tl-tx">Expansao rapidissima. O universo cresceu exponencialmente em fracao de segundo.</div></div>
+        <div class="tl-row"><div class="tl-dot" style="border-color:var(--fis)"></div><div class="tl-yr">10⁻⁶ s — Quarks formam protons/neutrons</div><div class="tl-tx">Quarks se combinam para formar protons e neutrons (hadronizacao).</div></div>
+        <div class="tl-row"><div class="tl-dot" style="border-color:var(--fis)"></div><div class="tl-yr">3 minutos — Nucleossintese primordial</div><div class="tl-tx">Protons e neutrons se unem formando os primeiros nucleos: Hidrogenio (H), Helio (He) e Litio (Li).</div></div>
+        <div class="tl-row"><div class="tl-dot" style="border-color:var(--fis)"></div><div class="tl-yr">380.000 anos — Recombinaçao</div><div class="tl-tx">Eletrons se unem aos nucleos formando os primeiros atomos. O universo fica transparente — luz pode viajar!</div></div>
+        <div class="tl-row"><div class="tl-dot" style="border-color:var(--fis)"></div><div class="tl-yr">200 milhoes de anos — Primeiras estrelas</div><div class="tl-tx">Nuvens de H e He colapsam pela gravidade formando as primeiras estrelas.</div></div>
+        <div class="tl-row"><div class="tl-dot" style="border-color:var(--fis)"></div><div class="tl-yr">9 bilhoes de anos — Sistema Solar</div><div class="tl-tx">Nosso Sistema Solar se forma a partir de uma nuvem de gas e poeira estelar.</div></div>
+      </div>
+    </div>
+    <div class="card l-fis">
+      <h3>Evidencias do Big Bang</h3>
+      <div class="g2">
+        <div class="gbox" style="border:1.5px solid rgba(194,24,91,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">Expansao</div><div class="glbl" style="text-align:left">Galáxias se afastam — descoberta por Edwin Hubble em 1929. Quanto mais longe, mais rapido se afastam.</div></div>
+        <div class="gbox" style="border:1.5px solid rgba(194,24,91,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">Radiacao CMB</div><div class="glbl" style="text-align:left">Radiacao Cosmica de Fundo — eco do Big Bang ainda detectavel em todo o universo (descoberta em 1965).</div></div>
+        <div class="gbox" style="border:1.5px solid rgba(194,24,91,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">Abundancia</div><div class="glbl" style="text-align:left">75% H e 25% He no universo — exatamente o previsto pela teoria da nucleossintese primordial.</div></div>
+        <div class="gbox" style="border:1.5px solid rgba(194,24,91,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">Redshift</div><div class="glbl" style="text-align:left">Deslocamento para o vermelho da luz das galaxias — comprova que estao se afastando de nos.</div></div>
+      </div>
+    </div>
+    <div class="tip">Big Bang NAO explica o que havia antes nem o que causou a expansao — sao questoes ainda em aberto na ciencia!</div>
+  </div>
+
+  <!-- ELEMENTOS PESADOS -->
+  <div class="sec" id="fis-ele">
+    <div class="sec-title" style="color:var(--fis)">⚗️ Elementos Pesados que o Ferro</div>
+    <div class="card l-fis">
+      <h3>Por que o ferro e o limite?</h3>
+      <p>Nas estrelas, elementos sao formados pela <b>fusao nuclear</b> — juntar atomos menores para criar atomos maiores, liberando energia. Mas fusao so libera energia ate o <b>Ferro (Fe, numero 26)</b>. Apos o ferro, a fusao CONSOME energia em vez de liberar. Entao estrelas normais nao conseguem criar elementos mais pesados que o ferro!</p>
+      <div class="box">Ferro = limite da fusao nuclear estelar</div>
+    </div>
+    <div class="card l-fis">
+      <h3>Como se formam entao?</h3>
+      <div class="acc">
+        <div class="acc-h open" onclick="tog(this)"><span class="acc-ht" style="color:#F48FB1">Processo s (slow) — Estrelas AGB</span><span class="acc-ar">▼</span></div>
+        <div class="acc-b open"><div class="acc-in">
+          <p style="font-size:.84rem;color:#C8C8E8;line-height:1.7">Acontece em estrelas gigantes envelhecidas (Ramo Assintótico Gigante — AGB). Neutrons sao capturados lentamente pelos nucleos, um de cada vez, ao longo de milhares de anos. Forma elementos como Bario (Ba), Estroncio (Sr) e Chumbo (Pb).</p>
+          <div class="ok">Elementos criados: Ba, Sr, Pb, Zr — metade dos elementos mais pesados que o ferro!</div>
+        </div></div>
+      </div>
+      <div class="acc">
+        <div class="acc-h" onclick="tog(this)"><span class="acc-ht" style="color:#F48FB1">Processo r (rapid) — Colisao de Estrelas de Neutrons</span><span class="acc-ar">▼</span></div>
+        <div class="acc-b"><div class="acc-in">
+          <p style="font-size:.84rem;color:#C8C8E8;line-height:1.7">Acontece em colisoes de estrelas de neutrons (kilonova) ou em supernovas extremas. Neutrons sao capturados MUITO rapidamente pelos nucleos. Cria os elementos mais pesados e mais raros, como Ouro (Au), Platina (Pt), Uranio (U) e demais elementos transferico.</p>
+          <div class="ok">Confirmado em 2017: colisao de estrelas de neutrons gerou ouro e platina detectaveis!</div>
+        </div></div>
+      </div>
+    </div>
+    <div class="card l-fis">
+      <h3>Resumo Visual</h3>
+      <table class="tbl">
+        <tr><th>Processo</th><th>Onde</th><th>Exemplos</th></tr>
+        <tr><td>Fusao ate Fe</td><td style="color:#C8C8E8">Nucleo das estrelas</td><td style="color:#FFD166">C, O, Si, Fe</td></tr>
+        <tr><td style="color:#F48FB1">Processo s</td><td style="color:#C8C8E8">Estrelas AGB (velhas)</td><td style="color:#A7F3D0">Ba, Sr, Pb, Zr</td></tr>
+        <tr><td style="color:#F48FB1">Processo r</td><td style="color:#C8C8E8">Colisao estrelas neutrons / Supernova</td><td style="color:#FDE68A">Au, Pt, U, Th</td></tr>
+      </table>
+      <div class="warn">O ouro do seu anel e platina do seu celular foram criados numa colisao de estrelas de neutrons bilhoes de anos atras!</div>
+    </div>
+  </div>
+
+  <!-- PARTICULAS ELEMENTARES -->
+  <div class="sec" id="fis-par">
+    <div class="sec-title" style="color:var(--fis)">⚛️ Particulas Elementares</div>
+    <div class="card l-fis">
+      <h3>O que sao?</h3>
+      <p>Particulas elementares sao os blocos fundamentais da materia — as menores unidades que existem, que nao podem ser divididas em partes menores. O Modelo Padrao da Fisica descreve todas elas!</p>
+    </div>
+    <div class="card l-fis">
+      <h3>Familia 1 — Fermions (materia)</h3>
+      <p style="font-size:.82rem;color:var(--muted);margin-bottom:8px">Sao as particulas que formam a materia</p>
+      <div class="acc">
+        <div class="acc-h open" onclick="tog(this)"><span class="acc-ht" style="color:#CE93D8">Quarks (6 tipos)</span><span class="acc-ar">▼</span></div>
+        <div class="acc-b open"><div class="acc-in">
+          <p style="font-size:.84rem;color:#C8C8E8;line-height:1.7;margin-bottom:8px">Quarks se combinam para formar protons e neutrons. Nunca existem sozinhos — sempre em grupos!</p>
+          <div class="g2">
+            <div class="gbox" style="border:1.5px solid rgba(206,147,216,.3)"><div style="font-family:'Fredoka One',cursive;color:#CE93D8;margin-bottom:4px">Up (u)</div><div class="glbl" style="text-align:left">Carga +2/3. Com "down" forma protons e neutrons. E o mais leve.</div></div>
+            <div class="gbox" style="border:1.5px solid rgba(206,147,216,.3)"><div style="font-family:'Fredoka One',cursive;color:#CE93D8;margin-bottom:4px">Down (d)</div><div class="glbl" style="text-align:left">Carga -1/3. Com "up" forma protons e neutrons.</div></div>
+            <div class="gbox" style="border:1.5px solid rgba(206,147,216,.3)"><div style="font-family:'Fredoka One',cursive;color:#CE93D8;margin-bottom:4px">Charm (c)</div><div class="glbl" style="text-align:left">Carga +2/3. Mais pesado que up.</div></div>
+            <div class="gbox" style="border:1.5px solid rgba(206,147,216,.3)"><div style="font-family:'Fredoka One',cursive;color:#CE93D8;margin-bottom:4px">Strange (s)</div><div class="glbl" style="text-align:left">Carga -1/3. Presente em particulas estranhas.</div></div>
+            <div class="gbox" style="border:1.5px solid rgba(206,147,216,.3)"><div style="font-family:'Fredoka One',cursive;color:#CE93D8;margin-bottom:4px">Top (t)</div><div class="glbl" style="text-align:left">Carga +2/3. O mais pesado de todos!</div></div>
+            <div class="gbox" style="border:1.5px solid rgba(206,147,216,.3)"><div style="font-family:'Fredoka One',cursive;color:#CE93D8;margin-bottom:4px">Bottom (b)</div><div class="glbl" style="text-align:left">Carga -1/3. Segundo mais pesado.</div></div>
+          </div>
+          <div class="tip" style="margin-top:8px">Proton = 2 quarks Up + 1 quark Down (carga +1) | Neutron = 1 quark Up + 2 quarks Down (carga 0)</div>
+        </div></div>
+      </div>
+      <div class="acc">
+        <div class="acc-h" onclick="tog(this)"><span class="acc-ht" style="color:#80DEEA">Leptons (6 tipos)</span><span class="acc-ar">▼</span></div>
+        <div class="acc-b"><div class="acc-in">
+          <p style="font-size:.84rem;color:#C8C8E8;line-height:1.7;margin-bottom:8px">Leptons nao sentem a forca nuclear forte. O mais famoso e o eletron!</p>
+          <table class="tbl">
+            <tr><th>Lepton</th><th>Carga</th><th>Detalhe</th></tr>
+            <tr><td style="color:#80DEEA">Eletron (e)</td><td>-1</td><td>Forma a eletrosfera dos atomos</td></tr>
+            <tr><td style="color:#80DEEA">Muon (μ)</td><td>-1</td><td>Como eletron, mas 207x mais pesado</td></tr>
+            <tr><td style="color:#80DEEA">Tau (τ)</td><td>-1</td><td>Ainda mais pesado que o muon</td></tr>
+            <tr><td style="color:#80DEEA">Neutrino-e (νe)</td><td>0</td><td>Massa quase zero, dificil detectar</td></tr>
+            <tr><td style="color:#80DEEA">Neutrino-μ (νμ)</td><td>0</td><td>Associado ao muon</td></tr>
+            <tr><td style="color:#80DEEA">Neutrino-τ (ντ)</td><td>0</td><td>Associado ao tau</td></tr>
+          </table>
+        </div></div>
+      </div>
+    </div>
+    <div class="card l-fis">
+      <h3>Familia 2 — Bosons (forcas)</h3>
+      <p style="font-size:.82rem;color:var(--muted);margin-bottom:8px">Sao as particulas que transmitem as forcas fundamentais</p>
+      <table class="tbl">
+        <tr><th>Boson</th><th>Forca</th><th>O que faz</th></tr>
+        <tr><td style="color:#FFD166">Foton (γ)</td><td>Eletromagnetica</td><td>Luz! Transmite eletricidade e magnetismo</td></tr>
+        <tr><td style="color:#FFD166">Gluon (g)</td><td>Nuclear forte</td><td>Liga quarks dentro de protons/neutrons</td></tr>
+        <tr><td style="color:#FFD166">Boson W e Z</td><td>Nuclear fraca</td><td>Responsavel pela radioatividade</td></tr>
+        <tr><td style="color:#FFD166">Graviton (?)</td><td>Gravitacao</td><td>Hipotetico — ainda nao detectado!</td></tr>
+        <tr><td style="color:#F48FB1">Boson de Higgs</td><td>Campo de Higgs</td><td>Da MASSA as particulas! Descoberto em 2012.</td></tr>
+      </table>
+      <div class="ok">O Boson de Higgs foi confirmado no LHC (Grande Colisor de Hadrons) em 2012 — premio Nobel!</div>
+    </div>
+    <div class="tip">Cada particula tem sua ANTIPARTICULA com carga oposta. Ex: eletron (e-) e positron (e+). Quando se encontram = aniquilacao total!</div>
+  </div>
+
+  <!-- MOL -->
+  <div class="sec" id="fis-mol">
+    <div class="sec-title" style="color:var(--fis)">🔢 Conceito de Mol</div>
+    <div class="card l-fis">
+      <h3>O que e mol?</h3>
+      <p>Mol e uma unidade de medida de QUANTIDADE de particulas (atomos, moleculas, ions etc.). E como a "duzia" de ovos — so que em vez de 12, tem um numero absurdamente maior!</p>
+      <div class="box">1 mol = 6,022 x 10²³ particulas</div>
+      <div style="text-align:center;font-size:.78rem;color:var(--muted);margin-top:4px">Numero de Avogadro (NA)</div>
+    </div>
+    <div class="card l-fis">
+      <h3>Por que esse numero?</h3>
+      <p>O numero de Avogadro foi escolhido de forma que <b>1 mol de qualquer substancia tenha massa igual ao seu peso molecular em gramas</b>. E uma ponte entre o mundo atomico (minusculo) e o mundo macroscopico (que a gente ve)!</p>
+      <div class="g2">
+        <div class="gbox" style="border:1.5px solid rgba(194,24,91,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">1 mol de H₂</div><div class="glbl">= 6,022×10²³ moleculas de H₂ = 2 gramas (massa molecular = 2)</div></div>
+        <div class="gbox" style="border:1.5px solid rgba(194,24,91,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">1 mol de H₂O</div><div class="glbl">= 6,022×10²³ moleculas de agua = 18 gramas (massa molecular = 18)</div></div>
+        <div class="gbox" style="border:1.5px solid rgba(194,24,91,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">1 mol de Fe</div><div class="glbl">= 6,022×10²³ atomos de ferro = 56 gramas (massa atomic = 56)</div></div>
+        <div class="gbox" style="border:1.5px solid rgba(194,24,91,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">1 mol de NaCl</div><div class="glbl">= 6,022×10²³ pares de ions = 58,5 gramas (Na=23, Cl=35,5)</div></div>
+      </div>
+    </div>
+    <div class="card l-fis">
+      <h3>As 3 Formulas do Mol</h3>
+      <div class="box">n = m / M</div>
+      <p style="font-size:.82rem;color:#C8C8E8;margin-bottom:8px">n = quantidade em mol | m = massa em gramas | M = massa molar (g/mol)</p>
+      <div class="box">n = N / Nₐ</div>
+      <p style="font-size:.82rem;color:#C8C8E8;margin-bottom:8px">n = mol | N = numero de particulas | Nₐ = 6,022×10²³</p>
+      <div class="box">n = V / 22,4 (a CNTP)</div>
+      <p style="font-size:.82rem;color:#C8C8E8">Para gases: n = mol | V = volume em litros | 22,4 L = volume molar a 0°C e 1 atm</p>
+    </div>
+    <div class="card l-fis">
+      <h3>Exemplo Resolvido</h3>
+      <div style="background:var(--card2);border-radius:10px;padding:12px">
+        <p style="font-size:.84rem;color:#F48FB1;font-weight:800;margin-bottom:8px">Quantos mols ha em 36g de agua (H₂O)?</p>
+        <ul class="lst lst-fis">
+          <li>Massa molar da agua: H=1, O=16 → H₂O = 2+16 = <b>18 g/mol</b></li>
+          <li>n = m / M = 36 / 18 = <b>2 mols</b></li>
+          <li>2 mols = 2 × 6,022×10²³ = <b>1,2×10²⁴ moleculas</b></li>
+        </ul>
+        <div class="ok" style="margin-top:8px">Resposta: 36g de agua = 2 mols = 1,2×10²⁴ moleculas!</div>
+      </div>
+    </div>
+    <div class="tip">Analogia facil: mol e como dizer "duzia" so que para atomos. 1 duzia = 12 ovos. 1 mol = 6×10²³ atomos. O numero e enorme porque atomos sao MINUSCULOS!</div>
+  </div>
+</div>
+<!-- FIM FISICA/QUIMICA -->
+
 <nav class="bnav">
   <button class="bitem on-geo" id="bn-geo" onclick="goMateria('geo')">
     <span class="bico">📐</span><span class="blbl">Geometria</span>
@@ -961,10 +1143,13 @@ ul.lst li::before{content:'›';position:absolute;left:3px;font-weight:900}
   <button class="bitem" id="bn-bio" onclick="goMateria('bio')">
     <span class="bico">🧬</span><span class="blbl">Biologia</span>
   </button>
+  <button class="bitem" id="bn-fis" onclick="goMateria('fis')">
+    <span class="bico">⚛️</span><span class="blbl">Fis/Quim</span>
+  </button>
 </nav>
 
 <script>
-const TITLES={geo:'Geometria Plana',hist:'Historia do Brasil',pop:'Geo. da Populacao',bio:'Biologia Molecular'};
+const TITLES={geo:'Geometria Plana',hist:'Historia do Brasil',pop:'Geo. da Populacao',bio:'Biologia Molecular',fis:'Fisica e Quimica'};
 
 function goMateria(m){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));
@@ -973,7 +1158,7 @@ function goMateria(m){
   document.getElementById('bn-'+m).classList.add('on-'+m);
   document.querySelectorAll('.mtab').forEach(t=>t.className='mtab');
   const tabs=document.querySelectorAll('.mtab');
-  const i=['geo','hist','pop','bio'].indexOf(m);
+  const i=['geo','hist','pop','bio','fis'].indexOf(m);
   if(i>=0)tabs[i].classList.add('on-'+m);
   document.getElementById('tb-sub').textContent=TITLES[m];
   document.getElementById('pg-'+m).scrollTop=0;
@@ -983,7 +1168,7 @@ function goSec(m,s,el){
   document.getElementById('pg-'+m).querySelectorAll('.sec').forEach(x=>x.classList.remove('show'));
   document.getElementById(m+'-'+s).classList.add('show');
   document.getElementById('ch-'+m).querySelectorAll('.chip').forEach(c=>{
-    c.classList.remove('sel-geo','sel-hist','sel-pop','sel-bio');
+    c.classList.remove('sel-geo','sel-hist','sel-pop','sel-bio','sel-fis');
   });
   el.classList.add('sel-'+m);
   document.getElementById('pg-'+m).scrollTop=0;
@@ -996,6 +1181,5 @@ function tog(h){
   h.classList.toggle('open',!open);
 }
 </script>
-
 </body>
 </html>
