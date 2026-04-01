@@ -6,7 +6,7 @@
 <title>Guia de Estudos</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--geo:#9B5DE5;--hist:#00B37E;--pop:#0077B6;--bio:#E05C00;--fis:#C2185B;--bg:#0A0A12;--card:#13131F;--card2:#1A1A2A;--text:#E8E8FF;--muted:#8888AA;--nav:62px}
+:root{--opt:#E91E63;--geo:#9B5DE5;--hist:#00B37E;--pop:#0077B6;--bio:#E05C00;--fis:#C2185B;--bg:#0A0A12;--card:#13131F;--card2:#1A1A2A;--text:#E8E8FF;--muted:#8888AA;--nav:62px}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column}
 .topbar{background:var(--card);border-bottom:1px solid rgba(255,255,255,.07);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
@@ -20,6 +20,11 @@ html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif;background
 .mtab.on-pop{color:var(--pop);border-bottom-color:var(--pop)}
 .mtab.on-bio{color:var(--bio);border-bottom-color:var(--bio)}
 .mtab.on-fis{color:var(--fis);border-bottom-color:var(--fis)}
+.mtab.on-opt{color:var(--opt);border-bottom-color:var(--opt)}
+.chips-bar{background:var(--card);border-bottom:1px solid rgba(255,255,255,.06);padding:0 12px;flex-shrink:0}
+.chips-bar .chips{display:none}
+.chips-bar .chips.show{display:flex}
+.chip.sel-opt{color:var(--opt);border-color:var(--opt);background:rgba(233,30,99,.1)}
 .pages{flex:1;overflow:hidden;position:relative}
 .page{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:10px 12px calc(var(--nav) + 10px);display:none;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .page::-webkit-scrollbar{display:none}
@@ -33,6 +38,7 @@ html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif;background
 .bitem.on-pop .blbl{color:var(--pop)}
 .bitem.on-bio .blbl{color:var(--bio)}
 .bitem.on-fis .blbl{color:var(--fis)}
+.bitem.on-opt .blbl{color:var(--opt)}
 .chips{display:flex;gap:6px;overflow-x:auto;padding:8px 0 10px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
 .chip{background:var(--card2);border:1.5px solid rgba(255,255,255,.1);border-radius:20px;padding:5px 12px;font-size:.72rem;font-weight:800;color:var(--muted);white-space:nowrap;cursor:pointer;flex-shrink:0}
@@ -42,6 +48,7 @@ html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif;background
 .chip.sel-bio{color:var(--bio);border-color:var(--bio);background:rgba(224,92,0,.1)}
 .chip.sel-fis{color:var(--fis);border-color:var(--fis);background:rgba(194,24,91,.1)}
 .l-fis{border-left:4px solid var(--fis)}
+.l-opt{border-left:4px solid var(--opt)}
 .sec{display:none}
 .sec.show{display:block}
 .sec-title{font-family:'Fredoka One',cursive;font-size:1.05rem;padding:4px 0 10px}
@@ -112,13 +119,11 @@ ul.lst li::before{content:'›';position:absolute;left:3px;font-weight:900}
   <div class="mtab" onclick="goMateria('pop',this)">📊 Geo/Pop</div>
   <div class="mtab" onclick="goMateria('bio',this)">🧬 Biologia</div>
   <div class="mtab" onclick="goMateria('fis',this)">⚛️ Fis/Quim</div>
+  <div class="mtab" onclick="goMateria('opt',this)">🔭 Optica/Calor</div>
 </div>
 
-<div class="pages">
-
-<!-- GEOMETRIA -->
-<div class="page show" id="pg-geo">
-  <div class="chips" id="ch-geo">
+<div class="chips-bar">
+  <div class="chips show" id="ch-geo">
     <div class="chip sel-geo" onclick="goSec('geo','intro',this)">📍 Intro</div>
     <div class="chip" onclick="goSec('geo','ang',this)">📐 Angulos</div>
     <div class="chip" onclick="goSec('geo','par',this)">Paralelas</div>
@@ -127,7 +132,59 @@ ul.lst li::before{content:'›';position:absolute;left:3px;font-weight:900}
     <div class="chip" onclick="goSec('geo','tal',this)">📏 Tales</div>
     <div class="chip" onclick="goSec('geo','sem',this)">🔍 Semelhanca</div>
   </div>
-  <div class="sec show" id="geo-intro">
+  <div class="chips" id="ch-hist">
+    <div class="chip sel-hist" onclick="goSec('hist','pre',this)">Pre-Colonial</div>
+    <div class="chip" onclick="goSec('hist','cap',this)">Capitanias</div>
+    <div class="chip" onclick="goSec('hist','gov',this)">Gov. Geral</div>
+    <div class="chip" onclick="goSec('hist','eco',this)">Economia</div>
+    <div class="chip" onclick="goSec('hist','uni',this)">Uniao Iberica</div>
+    <div class="chip" onclick="goSec('hist','inv',this)">Invasoes</div>
+  </div>
+  <div class="chips" id="ch-pop">
+    <div class="chip sel-pop" onclick="goSec('pop','soc',this)">Sociedade</div>
+    <div class="chip" onclick="goSec('pop','etn',this)">Etnias</div>
+    <div class="chip" onclick="goSec('pop','pop',this)">Populacao</div>
+    <div class="chip" onclick="goSec('pop','cre',this)">Crescimento</div>
+    <div class="chip" onclick="goSec('pop','est',this)">Estrutura</div>
+    <div class="chip" onclick="goSec('pop','pea',this)">PEA</div>
+    <div class="chip" onclick="goSec('pop','ter',this)">Territorio</div>
+    <div class="chip" onclick="goSec('pop','fus',this)">Fusos</div>
+    <div class="chip" onclick="goSec('pop','pod',this)">Poderes</div>
+  </div>
+  <div class="chips" id="ch-bio">
+    <div class="chip sel-bio" onclick="goSec('bio','gene',this)">1. Gene</div>
+    <div class="chip" onclick="goSec('bio','bas',this)">2. Bases</div>
+    <div class="chip" onclick="goSec('bio','dif',this)">3. DNA x RNA</div>
+    <div class="chip" onclick="goSec('bio','enz',this)">4. Enzimas</div>
+    <div class="chip" onclick="goSec('bio','ami',this)">5. Aminoacidos</div>
+    <div class="chip" onclick="goSec('bio','rna',this)">6. Tipos RNA</div>
+    <div class="chip" onclick="goSec('bio','cod',this)">7. Codons</div>
+    <div class="chip" onclick="goSec('bio','fit',this)">8. Fitas</div>
+    <div class="chip" onclick="goSec('bio','sin',this)">9. Sintese</div>
+    <div class="chip" onclick="goSec('bio','tra',this)">10. Trad x Rep</div>
+  </div>
+  <div class="chips" id="ch-fis">
+    <div class="chip sel-fis" onclick="goSec('fis','big',this)">💥 Big Bang</div>
+    <div class="chip" onclick="goSec('fis','ele',this)">⚗️ Elem. Pesados</div>
+    <div class="chip" onclick="goSec('fis','par',this)">⚛️ Particulas</div>
+    <div class="chip" onclick="goSec('fis','mol',this)">🔢 Mol</div>
+  </div>
+  <div class="chips" id="ch-opt">
+    <div class="chip sel-opt" onclick="goSec('opt','term',this)">🌡️ Escalas</div>
+    <div class="chip" onclick="goSec('opt','cal',this)">🔥 Calorimetria</div>
+    <div class="chip" onclick="goSec('opt','opt',this)">💡 Optica</div>
+    <div class="chip" onclick="goSec('opt','esp',this)">🪞 Espelhos</div>
+    <div class="chip" onclick="goSec('opt','assoc',this)">🪞🪞 Assoc.</div>
+    <div class="chip" onclick="goSec('opt','ond',this)">🌊 Ondas</div>
+    <div class="chip" onclick="goSec('opt','elet',this)">📡 Eletromag.</div>
+  </div>
+</div>
+
+<div class="pages">
+
+<!-- GEOMETRIA -->
+<div class="page show" id="pg-geo">
+<div class="sec show" id="geo-intro">
     <div class="sec-title" style="color:var(--geo)">📍 Ponto, Reta e Segmento</div>
     <div class="card l-geo">
       <h3>Os entes basicos</h3>
@@ -267,15 +324,7 @@ ul.lst li::before{content:'›';position:absolute;left:3px;font-weight:900}
 
 <!-- HISTORIA -->
 <div class="page" id="pg-hist">
-  <div class="chips" id="ch-hist">
-    <div class="chip sel-hist" onclick="goSec('hist','pre',this)">Pre-Colonial</div>
-    <div class="chip" onclick="goSec('hist','cap',this)">Capitanias</div>
-    <div class="chip" onclick="goSec('hist','gov',this)">Gov. Geral</div>
-    <div class="chip" onclick="goSec('hist','eco',this)">Economia</div>
-    <div class="chip" onclick="goSec('hist','uni',this)">Uniao Iberica</div>
-    <div class="chip" onclick="goSec('hist','inv',this)">Invasoes</div>
-  </div>
-  <div class="sec show" id="hist-pre">
+<div class="sec show" id="hist-pre">
     <div class="sec-title" style="color:var(--hist)">Pre-Colonial (1500-1530)</div>
     <div class="card l-hist">
       <h3>Por que ignoraram o Brasil?</h3>
@@ -448,18 +497,7 @@ ul.lst li::before{content:'›';position:absolute;left:3px;font-weight:900}
 
 <!-- GEO/POP -->
 <div class="page" id="pg-pop">
-  <div class="chips" id="ch-pop">
-    <div class="chip sel-pop" onclick="goSec('pop','soc',this)">Sociedade</div>
-    <div class="chip" onclick="goSec('pop','etn',this)">Etnias</div>
-    <div class="chip" onclick="goSec('pop','pop',this)">Populacao</div>
-    <div class="chip" onclick="goSec('pop','cre',this)">Crescimento</div>
-    <div class="chip" onclick="goSec('pop','est',this)">Estrutura</div>
-    <div class="chip" onclick="goSec('pop','pea',this)">PEA</div>
-    <div class="chip" onclick="goSec('pop','ter',this)">Territorio</div>
-    <div class="chip" onclick="goSec('pop','fus',this)">Fusos</div>
-    <div class="chip" onclick="goSec('pop','pod',this)">Poderes</div>
-  </div>
-  <div class="sec show" id="pop-soc">
+<div class="sec show" id="pop-soc">
     <div class="sec-title" style="color:var(--pop)">Formacao da Sociedade</div>
     <div class="card l-pop">
       <h3>Os grupos formadores</h3>
@@ -629,20 +667,7 @@ ul.lst li::before{content:'›';position:absolute;left:3px;font-weight:900}
 
 <!-- BIOLOGIA -->
 <div class="page" id="pg-bio">
-  <div class="chips" id="ch-bio">
-    <div class="chip sel-bio" onclick="goSec('bio','gene',this)">1. Gene</div>
-    <div class="chip" onclick="goSec('bio','bas',this)">2. Bases</div>
-    <div class="chip" onclick="goSec('bio','dif',this)">3. DNA x RNA</div>
-    <div class="chip" onclick="goSec('bio','enz',this)">4. Enzimas</div>
-    <div class="chip" onclick="goSec('bio','ami',this)">5. Aminoacidos</div>
-    <div class="chip" onclick="goSec('bio','rna',this)">6. Tipos RNA</div>
-    <div class="chip" onclick="goSec('bio','cod',this)">7. Codons</div>
-    <div class="chip" onclick="goSec('bio','fit',this)">8. Fitas</div>
-    <div class="chip" onclick="goSec('bio','sin',this)">9. Sintese</div>
-    <div class="chip" onclick="goSec('bio','tra',this)">10. Trad x Rep</div>
-  </div>
-
-  <div class="sec show" id="bio-gene">
+<div class="sec show" id="bio-gene">
     <div class="sec-title" style="color:var(--bio)">1. O que e Gene?</div>
     <div class="card l-bio">
       <h3>Definicao simples</h3>
@@ -949,14 +974,7 @@ ul.lst li::before{content:'›';position:absolute;left:3px;font-weight:900}
 
 <!-- FISICA/QUIMICA -->
 <div class="page" id="pg-fis">
-  <div class="chips" id="ch-fis">
-    <div class="chip sel-fis" onclick="goSec('fis','big',this)">💥 Big Bang</div>
-    <div class="chip" onclick="goSec('fis','ele',this)">⚗️ Elementos Pesados</div>
-    <div class="chip" onclick="goSec('fis','par',this)">⚛️ Particulas</div>
-    <div class="chip" onclick="goSec('fis','mol',this)">🔢 Mol</div>
-  </div>
-
-  <!-- BIG BANG -->
+<!-- BIG BANG -->
   <div class="sec show" id="fis-big">
     <div class="sec-title" style="color:var(--fis)">💥 Teoria do Big Bang</div>
     <div class="card l-fis">
@@ -987,6 +1005,331 @@ ul.lst li::before{content:'›';position:absolute;left:3px;font-weight:900}
       </div>
     </div>
     <div class="tip">Big Bang NAO explica o que havia antes nem o que causou a expansao — sao questoes ainda em aberto na ciencia!</div>
+  </div>
+</div>
+
+<!-- OPTICA E CALORIMETRIA -->
+<div class="page" id="pg-opt">
+<div class="sec show" id="opt-term">
+    <div class="sec-title" style="color:var(--fis)">🌡️ Escalas Termometricas</div>
+    <div class="card l-fis">
+      <h3>O que e temperatura?</h3>
+      <p>Temperatura mede o grau de agitacao das particulas de um corpo. Quanto mais agitadas, maior a temperatura. Existem tres escalas principais usadas no mundo!</p>
+    </div>
+    <div class="card l-fis">
+      <h3>As 3 Escalas</h3>
+      <table class="tbl">
+        <tr><th>Escala</th><th>Simbolo</th><th>Ponto de fusao agua</th><th>Ponto de ebuliçao agua</th></tr>
+        <tr><td style="color:#F48FB1">Celsius</td><td>°C</td><td>0°C</td><td>100°C</td></tr>
+        <tr><td style="color:#80DEEA">Fahrenheit</td><td>°F</td><td>32°F</td><td>212°F</td></tr>
+        <tr><td style="color:#FFD166">Kelvin</td><td>K</td><td>273 K</td><td>373 K</td></tr>
+      </table>
+      <div class="tip">Kelvin e a escala absoluta — o 0 K (zero absoluto) e a temperatura mais fria possivel no universo! Nao existe temperatura negativa em Kelvin.</div>
+    </div>
+    <div class="card l-fis">
+      <h3>Formulas de Conversao</h3>
+      <div class="box">K = °C + 273</div>
+      <div class="box">°C = (°F - 32) x 5/9</div>
+      <div class="box">°F = °C x 9/5 + 32</div>
+      <div class="ok" style="margin-top:8px">Exemplo: 100°C = 100 + 273 = 373 K | 100°C = 100 x 9/5 + 32 = 212°F</div>
+    </div>
+    <div class="card l-fis">
+      <h3>Macete Visual</h3>
+      <div style="background:var(--card2);border-radius:10px;padding:12px;margin:8px 0">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;text-align:center;font-size:.8rem;color:#C8C8E8">
+          <div style="font-family:'Fredoka One',cursive;color:#F48FB1">°C</div>
+          <div style="font-family:'Fredoka One',cursive;color:#80DEEA">°F</div>
+          <div style="font-family:'Fredoka One',cursive;color:#FFD166">K</div>
+          <div>100</div><div>212</div><div>373</div>
+          <div>37 (corpo)</div><div>98,6</div><div>310</div>
+          <div>20 (amb.)</div><div>68</div><div>293</div>
+          <div>0</div><div>32</div><div>273</div>
+          <div>-273</div><div>-459</div><div>0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CALORIMETRIA -->
+  <div class="sec" id="opt-cal">
+    <div class="sec-title" style="color:var(--fis)">🔥 Calorimetria</div>
+    <div class="card l-fis">
+      <h3>O que e Calor?</h3>
+      <p>Calor e energia termica em transito de um corpo para outro, motivada por diferenca de temperatura. Flui sempre do mais quente para o mais frio, ate atingir o equilibrio termico!</p>
+      <div class="box">Calor = energia termica em transito</div>
+      <div class="tip">Equilibrio termico = quando dois corpos em contato atingem a mesma temperatura e param de trocar calor.</div>
+    </div>
+    <div class="card l-fis">
+      <h3>Calor Sensivel x Calor Latente</h3>
+      <div class="g2">
+        <div class="gbox" style="border:1.5px solid rgba(244,143,177,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">Calor Sensivel</div><div class="glbl" style="text-align:left">Muda a TEMPERATURA do corpo, sem mudar seu estado fisico. Ex: aquecer agua de 20 a 80°C.</div></div>
+        <div class="gbox" style="border:1.5px solid rgba(128,222,234,.3)"><div style="font-family:'Fredoka One',cursive;color:#80DEEA;margin-bottom:4px">Calor Latente</div><div class="glbl" style="text-align:left">Muda o ESTADO FISICO do corpo, sem mudar sua temperatura. Ex: derreter gelo a 0°C.</div></div>
+      </div>
+    </div>
+    <div class="card l-fis">
+      <h3>Formulas Fundamentais</h3>
+      <div class="box">Q = m . c . ΔT</div>
+      <p style="font-size:.82rem;color:#C8C8E8;margin-bottom:8px">Q = calor (cal ou J) | m = massa (g) | c = calor especifico (cal/g°C) | ΔT = variacao de temperatura</p>
+      <div class="box">Q = m . L</div>
+      <p style="font-size:.82rem;color:#C8C8E8;margin-bottom:8px">Q = calor latente | m = massa | L = calor latente especifico</p>
+      <div class="box">C = Q / ΔT</div>
+      <p style="font-size:.82rem;color:#C8C8E8">C = capacidade termica (cal/°C) — quantidade de calor para variar 1°C o corpo inteiro</p>
+    </div>
+    <div class="card l-fis">
+      <h3>Calores Especificos (c)</h3>
+      <table class="tbl">
+        <tr><th>Substancia</th><th>c (cal/g°C)</th><th>Obs.</th></tr>
+        <tr><td>Agua</td><td style="color:#FFD166">1,0</td><td>O maior! Por isso e usada em radiadores</td></tr>
+        <tr><td>Aluminio</td><td style="color:#C8C8E8">0,22</td><td>Aquece rapido (panelas)</td></tr>
+        <tr><td>Ferro</td><td style="color:#C8C8E8">0,11</td><td>Aquece mais rapido que aluminio</td></tr>
+        <tr><td>Cobre</td><td style="color:#C8C8E8">0,093</td><td>Bom condutor de calor</td></tr>
+      </table>
+      <div class="tip">Quanto MAIOR o c, mais calor precisa para aquecer. A agua tem o maior c entre as substancias comuns — por isso os climas proximos ao mar sao mais amenos!</div>
+    </div>
+    <div class="card l-fis">
+      <h3>Exemplo Resolvido</h3>
+      <div style="background:var(--card2);border-radius:10px;padding:12px">
+        <p style="font-size:.84rem;color:#F48FB1;font-weight:800;margin-bottom:8px">Ferro de aluminio (250g, c=0,2) aquece 20 a 100°C. Qual o calor?</p>
+        <ul class="lst lst-fis">
+          <li>Q = m x c x ΔT</li>
+          <li>Q = 250 x 0,2 x (100-20)</li>
+          <li>Q = 250 x 0,2 x 80</li>
+          <li>Q = 4.000 cal</li>
+        </ul>
+        <div class="ok" style="margin-top:8px">Resposta: 4.000 cal (ou 4 kcal)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPTICA GEOMETRICA -->
+  <div class="sec" id="opt-opt">
+    <div class="sec-title" style="color:var(--fis)">💡 Principios da Optica Geometrica</div>
+    <div class="card l-fis">
+      <h3>O que estuda a Optica Geometrica?</h3>
+      <p>Estuda o comportamento da luz considerando-a como raios retilíneos (sem considerar sua natureza ondulatoria). Funciona bem para objetos muito maiores que o comprimento de onda da luz!</p>
+    </div>
+    <div class="card l-fis">
+      <h3>Os 3 Principios Fundamentais</h3>
+      <div class="acc">
+        <div class="acc-h open" onclick="tog(this)"><span class="acc-ht" style="color:#F48FB1">1. Propagacao Retilínea</span><span class="acc-ar">▼</span></div>
+        <div class="acc-b open"><div class="acc-in">
+          <p style="font-size:.84rem;color:#C8C8E8;line-height:1.7">A luz se propaga em linha reta em meios homogeneos e transparentes. E por isso que uma lampada cria sombras — a luz nao dobra ao redor dos objetos!</p>
+          <div class="ok">Aplicacoes: camera escura, eclipses, sombras e penumbras.</div>
+        </div></div>
+      </div>
+      <div class="acc">
+        <div class="acc-h" onclick="tog(this)"><span class="acc-ht" style="color:#F48FB1">2. Independencia dos Raios de Luz</span><span class="acc-ar">▼</span></div>
+        <div class="acc-b"><div class="acc-in">
+          <p style="font-size:.84rem;color:#C8C8E8;line-height:1.7">Dois raios de luz podem se cruzar sem que um interfira no outro. Pense em dois holofotes apontados: onde os feixes se cruzam, eles nao se atrapalham!</p>
+        </div></div>
+      </div>
+      <div class="acc">
+        <div class="acc-h" onclick="tog(this)"><span class="acc-ht" style="color:#F48FB1">3. Reversibilidade dos Raios de Luz</span><span class="acc-ar">▼</span></div>
+        <div class="acc-b"><div class="acc-in">
+          <p style="font-size:.84rem;color:#C8C8E8;line-height:1.7">Um raio de luz percorre o mesmo caminho independente do sentido. Se voce ve alguem num espelho, essa pessoa tambem te ve!</p>
+        </div></div>
+      </div>
+    </div>
+    <div class="card l-fis">
+      <h3>Camera Escura de Orificio</h3>
+      <p>Uma caixa fechada com um pequeno furo — a luz entra em linha reta e forma uma imagem INVERTIDA do objeto no fundo da caixa.</p>
+      <div style="background:var(--card2);border-radius:10px;padding:12px;margin:8px 0">
+        <div style="text-align:center;font-size:.82rem;color:#C8C8E8;margin-bottom:8px">Formula da camera escura:</div>
+        <div class="box" style="margin:0">i/o = d_i / d_o</div>
+        <div style="font-size:.78rem;color:var(--muted);text-align:center;margin-top:6px">i = tamanho imagem | o = tamanho objeto | d_i = distancia furo-imagem | d_o = distancia objeto-furo</div>
+      </div>
+      <div class="ok">Exemplo: objeto de 3m a 5m do furo, caixa de 6cm — imagem = (3 x 6) / 500 = 3,6 cm</div>
+    </div>
+    <div class="card l-fis">
+      <h3>Eclipses — Consequencia da Propagacao Retilínea</h3>
+      <table class="tbl">
+        <tr><th>Tipo</th><th>O que ve o observador</th></tr>
+        <tr><td style="color:#FFD166">Total</td><td>Sol completamente bloqueado pela Lua. Regiao I (umbra total).</td></tr>
+        <tr><td style="color:#F48FB1">Parcial</td><td>Sol parcialmente bloqueado. Regiao II (penumbra).</td></tr>
+        <tr><td style="color:#80DEEA">Anular</td><td>Anel de luz ao redor da Lua. Regiao III (Lua mais longe da Terra).</td></tr>
+      </table>
+      <div class="tip">Macete da questao UNESP: Regioes I, II e III = Total, Anular e Parcial respectivamente.</div>
+    </div>
+  </div>
+
+  <!-- ESPELHOS PLANOS -->
+  <div class="sec" id="opt-esp">
+    <div class="sec-title" style="color:var(--fis)">🪞 Espelhos Planos</div>
+    <div class="card l-fis">
+      <h3>O que sao?</h3>
+      <p>Espelhos planos sao superficies lisas e polidas que refletem a luz regularmente. A imagem formada e VIRTUAL (nao pode ser projetada em tela), DIREITA e do MESMO TAMANHO que o objeto!</p>
+    </div>
+    <div class="card l-fis">
+      <h3>Caracteristicas da Imagem</h3>
+      <div class="g2">
+        <div class="gbox" style="border:1.5px solid rgba(244,143,177,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">Virtual</div><div class="glbl">A imagem esta "atras" do espelho. Nao existe de fato naquele ponto.</div></div>
+        <div class="gbox" style="border:1.5px solid rgba(244,143,177,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">Direita</div><div class="glbl">Mesmo lado que o objeto — nao e invertida verticalmente.</div></div>
+        <div class="gbox" style="border:1.5px solid rgba(244,143,177,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">Mesmo tamanho</div><div class="glbl">A imagem tem exatamente o mesmo tamanho do objeto.</div></div>
+        <div class="gbox" style="border:1.5px solid rgba(244,143,177,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">Enantiomorfa</div><div class="glbl">Lateralmente invertida! Mao direita parece mao esquerda. Por isso texto no espelho aparece ao contrario.</div></div>
+      </div>
+    </div>
+    <div class="card l-fis">
+      <h3>Distancia Objeto-Imagem</h3>
+      <p>A imagem se forma ATRAS do espelho, a mesma distancia que o objeto esta na frente!</p>
+      <div class="box">d_objeto = d_imagem (em relacao ao espelho)</div>
+      <div class="ok">Objeto a 30cm do espelho → imagem a 30cm atras do espelho → distancia objeto-imagem = 60cm!</div>
+      <div class="tip">Se a pessoa se afasta do espelho, a imagem tambem se afasta — mas o tamanho nao muda!</div>
+    </div>
+    <div class="card l-fis">
+      <h3>Translacao do Espelho</h3>
+      <p>Se o espelho se move, como a imagem se comporta?</p>
+      <div class="box">Se espelho se desloca d → imagem se desloca 2d</div>
+      <div class="tip">A imagem se move o DOBRO do espelho! Se o espelho anda 10cm, a imagem anda 20cm em relacao ao objeto.</div>
+    </div>
+    <div class="card l-fis">
+      <h3>Retrovisor — Questao Classica</h3>
+      <p>O motorista ve a palavra SORRIA no retrovisor. Isso significa que no para-choque do caminhao estava escrito SORRIA — pois a inversao lateral do espelho faz o texto refletido parecer ao contrario, e ao refletir um texto ja invertido, ele aparece normal!</p>
+      <div class="warn">Espelho INVERTE lateralmente. Texto invertido + espelho = texto normal!</div>
+    </div>
+  </div>
+
+  <!-- ASSOCIACAO DE ESPELHOS -->
+  <div class="sec" id="opt-assoc">
+    <div class="sec-title" style="color:var(--fis)">🪞🪞 Associacao de Espelhos Planos</div>
+    <div class="card l-fis">
+      <h3>Formula do Numero de Imagens</h3>
+      <p>Quando dois espelhos formam um angulo (a) entre si, o numero de imagens formadas e:</p>
+      <div class="box">N = (360° / a) - 1</div>
+      <p style="font-size:.82rem;color:#C8C8E8;margin-top:8px">Valida quando 360/a e numero inteiro e o objeto esta no plano bissetor.</p>
+      <div class="tip">O "menos 1" e porque o proprio objeto nao conta como imagem!</div>
+    </div>
+    <div class="card l-fis">
+      <h3>Tabela de Angulos e Imagens</h3>
+      <table class="tbl">
+        <tr><th>Angulo (a)</th><th>360/a</th><th>N imagens</th></tr>
+        <tr><td>180° (paralelos)</td><td>2</td><td style="color:#F48FB1">Infinitas</td></tr>
+        <tr><td>120°</td><td>3</td><td style="color:#FFD166">2</td></tr>
+        <tr><td>90°</td><td>4</td><td style="color:#FFD166">3</td></tr>
+        <tr><td>72°</td><td>5</td><td style="color:#FFD166">4</td></tr>
+        <tr><td>60°</td><td>6</td><td style="color:#FFD166">5</td></tr>
+        <tr><td>45°</td><td>8</td><td style="color:#FFD166">7</td></tr>
+        <tr><td>36°</td><td>10</td><td style="color:#FFD166">9</td></tr>
+      </table>
+    </div>
+    <div class="card l-fis">
+      <h3>Caso especial: 90 graus</h3>
+      <p>Para espelhos perpendiculares (90°), formam-se sempre <b>3 imagens</b> para QUALQUER posicao do objeto entre eles!</p>
+      <div style="background:var(--card2);border-radius:10px;padding:12px;margin:8px 0">
+        <ul class="lst lst-fis">
+          <li>Imagem P1 — reflexao simples no espelho E1</li>
+          <li>Imagem P2 — reflexao simples no espelho E2</li>
+          <li>Imagem P3 — reflexao dupla (E1 depois E2, ou E2 depois E1 — coincidem!)</li>
+        </ul>
+      </div>
+      <div class="ok">P1 e P2 sao enantiomorfas (invertidas lateralmente) em relacao ao objeto. P3 e superponivel ao objeto (como voce realmente e, nao invertido)!</div>
+      <div class="tip">Se voce levantar a mao direita: P1 e P2 levantam a mao esquerda, P3 levanta a mao direita — igual a voce!</div>
+    </div>
+    <div class="card l-fis">
+      <h3>Aplicacoes no cotidiano</h3>
+      <div class="g2">
+        <div class="gbox" style="border:1.5px solid rgba(244,143,177,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">Períscopio</div><div class="glbl">Dois espelhos a 45° permitem ver por cima de obstaculos (usado em submarinos).</div></div>
+        <div class="gbox" style="border:1.5px solid rgba(244,143,177,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">Teatro / Cinema</div><div class="glbl">Diretores usam espelhos para multiplicar atores — um ator com varios espelhos parece um grupo!</div></div>
+        <div class="gbox" style="border:1.5px solid rgba(244,143,177,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">Leonardo da Vinci</div><div class="glbl">Associou espelhos para estudar o corpo humano sob varios angulos enquanto pintava e esculpia.</div></div>
+        <div class="gbox" style="border:1.5px solid rgba(244,143,177,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">Michelson e Morley</div><div class="glbl">Usaram espelhos para medir a velocidade da luz e descobrir que ela e constante para todos os referenciais.</div></div>
+      </div>
+    </div>
+    <div class="card l-fis">
+      <h3>Questao do Corpo de Baile</h3>
+      <p>Como fazer 22 figurantes com 2 bailarinos e 2 espelhos?</p>
+      <div class="box">N = (360/a) - 1 = 22 → 360/a = 23 → a ≈ 15,65°</div>
+      <p style="font-size:.84rem;color:#C8C8E8;margin-top:8px">Com espelhos formando um angulo de aproximadamente 16°, 2 bailarinos geram imagens suficientes para parecer um corpo de baile de 22 pessoas!</p>
+    </div>
+  </div>
+
+  <!-- ONDAS MECANICAS -->
+  <div class="sec" id="opt-ond">
+    <div class="sec-title" style="color:var(--fis)">🌊 Nocoes Gerais de Ondas</div>
+    <div class="card l-fis">
+      <h3>O que e uma Onda?</h3>
+      <p>Uma onda e uma perturbacao que se propaga transportando ENERGIA, mas sem transportar materia! A agua de um lago nao viaja ate a beira — so a perturbacao se propaga.</p>
+      <div class="box">Onda = propagacao de energia SEM transporte de materia</div>
+    </div>
+    <div class="card l-fis">
+      <h3>Classificacao das Ondas</h3>
+      <div class="acc">
+        <div class="acc-h open" onclick="tog(this)"><span class="acc-ht" style="color:#F48FB1">Quanto ao meio de propagacao</span><span class="acc-ar">▼</span></div>
+        <div class="acc-b open"><div class="acc-in">
+          <div class="g2">
+            <div class="gbox" style="border:1.5px solid rgba(244,143,177,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">Mecanicas</div><div class="glbl">Precisam de meio material. Nao se propagam no vacuo. Ex: som, ondas na agua, sismicas.</div></div>
+            <div class="gbox" style="border:1.5px solid rgba(128,222,234,.3)"><div style="font-family:'Fredoka One',cursive;color:#80DEEA;margin-bottom:4px">Eletromagneticas</div><div class="glbl">Nao precisam de meio material. Propagam-se ate no vacuo! Ex: luz, radio, raio-X.</div></div>
+          </div>
+        </div></div>
+      </div>
+      <div class="acc">
+        <div class="acc-h" onclick="tog(this)"><span class="acc-ht" style="color:#F48FB1">Quanto a direcao de vibracao</span><span class="acc-ar">▼</span></div>
+        <div class="acc-b"><div class="acc-in">
+          <div class="g2">
+            <div class="gbox" style="border:1.5px solid rgba(244,143,177,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">Transversais</div><div class="glbl">A vibracao e PERPENDICULAR a propagacao. Ex: ondas na agua, luz. Imagine sacudir uma corda de lado!</div></div>
+            <div class="gbox" style="border:1.5px solid rgba(128,222,234,.3)"><div style="font-family:'Fredoka One',cursive;color:#80DEEA;margin-bottom:4px">Longitudinais</div><div class="glbl">A vibracao e PARALELA a propagacao. Ex: som. Imagine comprimir e esticar uma mola!</div></div>
+          </div>
+        </div></div>
+      </div>
+    </div>
+    <div class="card l-fis">
+      <h3>Grandezas de uma Onda</h3>
+      <table class="tbl">
+        <tr><th>Grandeza</th><th>Simbolo</th><th>Significado</th></tr>
+        <tr><td style="color:#FFD166">Comprimento de onda</td><td>λ (lambda)</td><td>Distancia entre dois pontos em fase (ex: crista a crista)</td></tr>
+        <tr><td style="color:#FFD166">Frequencia</td><td>f</td><td>Quantas oscilacoes por segundo (Hz)</td></tr>
+        <tr><td style="color:#FFD166">Periodo</td><td>T</td><td>Tempo de uma oscilacao completa (s)</td></tr>
+        <tr><td style="color:#FFD166">Velocidade</td><td>v</td><td>Velocidade de propagacao da onda (m/s)</td></tr>
+        <tr><td style="color:#FFD166">Amplitude</td><td>A</td><td>Distancia maxima de deslocamento</td></tr>
+      </table>
+      <div class="box">v = λ . f (Relacao Fundamental das Ondas)</div>
+      <div class="box">T = 1 / f</div>
+    </div>
+    <div class="card l-fis">
+      <h3>A Bolinha de Isopor na Agua</h3>
+      <p>Quando uma onda passa, a bolinha de isopor oscila para CIMA e para BAIXO (movimento circular no plano vertical), mas NAO avanca com a onda. Ela fica no mesmo lugar! So a perturbacao se propaga.</p>
+      <div class="warn">A materia NAO viaja com a onda. So a energia (perturbacao) se propaga!</div>
+    </div>
+  </div>
+
+  <!-- ONDAS ELETROMAGNETICAS -->
+  <div class="sec" id="opt-elet">
+    <div class="sec-title" style="color:var(--fis)">📡 Ondas Eletromagneticas</div>
+    <div class="card l-fis">
+      <h3>O que sao?</h3>
+      <p>Ondas eletromagneticas sao perturbacoes nos campos eletrico e magnetico que se propagam pelo espaco, inclusive no vacuo. Todas viajam a mesma velocidade no vacuo:</p>
+      <div class="box">c = 3 x 10⁸ m/s (velocidade da luz)</div>
+      <div class="ok">Einstein postulou que a velocidade da luz e constante para TODOS os observadores — base da Relatividade!</div>
+    </div>
+    <div class="card l-fis">
+      <h3>Como sao produzidas?</h3>
+      <p>Ondas eletromagneticas sao produzidas por cargas eletricas em movimento ACELERADO. Uma carga oscilando cria campos eletrico e magnetico que se propagam como onda!</p>
+    </div>
+    <div class="card l-fis">
+      <h3>Espectro Eletromagnetico</h3>
+      <p style="font-size:.82rem;color:var(--muted);margin-bottom:8px">Do maior comprimento (menor freq.) ao menor comprimento (maior freq.):</p>
+      <table class="tbl">
+        <tr><th>Tipo</th><th>λ aproximado</th><th>Uso</th></tr>
+        <tr><td style="color:#F48FB1">Radio</td><td>&gt; 10 cm</td><td>Radio AM/FM, TV</td></tr>
+        <tr><td style="color:#F48FB1">Micro-ondas</td><td>1mm - 10cm</td><td>Forno micro-ondas, Wi-Fi, radar</td></tr>
+        <tr><td style="color:#CE93D8">Infravermelho</td><td>0,7μm - 1mm</td><td>Controle remoto, sensor de calor</td></tr>
+        <tr><td style="color:#FFD166">Luz visivel</td><td>400 - 700nm</td><td>O que nosso olho enxerga!</td></tr>
+        <tr><td style="color:#80DEEA">Ultravioleta</td><td>10 - 400nm</td><td>Esterilizacao, bronzeamento</td></tr>
+        <tr><td style="color:#A7F3D0">Raios X</td><td>0,01 - 10nm</td><td>Radiografia medica</td></tr>
+        <tr><td style="color:#FCA5A5">Raios Gama</td><td>&lt; 0,01nm</td><td>Radioterapia, nucleo atomico</td></tr>
+      </table>
+      <div class="tip">Macete: Radio-Micro-Infra-Visivel-Ultra-X-Gama (do maior para o menor comprimento!)</div>
+    </div>
+    <div class="card l-fis">
+      <h3>Relacao Fundamental e Quantizacao</h3>
+      <div class="box">v = λ . f (no vacuo: c = λ . f)</div>
+      <div class="box">E = h . f (quantizacao — Planck)</div>
+      <p style="font-size:.82rem;color:#C8C8E8;margin-top:8px">h = constante de Planck = 6,626 x 10⁻³⁴ J.s</p>
+      <p style="font-size:.84rem;color:#C8C8E8;margin-top:8px">Max Planck descobriu que a luz so pode ser emitida em "pacotes" de energia chamados <b>fotons</b>. Cada foton tem energia E = h.f — quanto maior a frequencia, maior a energia do foton!</p>
+      <div class="g2" style="margin-top:8px">
+        <div class="gbox" style="border:1.5px solid rgba(128,222,234,.3)"><div style="font-family:'Fredoka One',cursive;color:#80DEEA;margin-bottom:4px">Maior freq.</div><div class="glbl">Maior energia! Raios Gama sao os mais energeticos e perigosos.</div></div>
+        <div class="gbox" style="border:1.5px solid rgba(244,143,177,.3)"><div style="font-family:'Fredoka One',cursive;color:#F48FB1;margin-bottom:4px">Menor freq.</div><div class="glbl">Menor energia. Ondas de radio sao as menos energeticas.</div></div>
+      </div>
+      <div class="ok" style="margin-top:8px">Einstein ganhou o Nobel de 1921 explicando o efeito fotoeletrico usando a quantizacao de Planck — fotons de luz ejetam eletrons de metais!</div>
+    </div>
   </div>
 
   <!-- ELEMENTOS PESADOS -->
@@ -1126,7 +1469,7 @@ ul.lst li::before{content:'›';position:absolute;left:3px;font-weight:900}
     <div class="tip">Analogia facil: mol e como dizer "duzia" so que para atomos. 1 duzia = 12 ovos. 1 mol = 6×10²³ atomos. O numero e enorme porque atomos sao MINUSCULOS!</div>
   </div>
 </div>
-<!-- FIM FISICA/QUIMICA -->
+
 </div><!-- fim .pages -->
 
 <nav class="bnav">
@@ -1145,10 +1488,13 @@ ul.lst li::before{content:'›';position:absolute;left:3px;font-weight:900}
   <button class="bitem" id="bn-fis" onclick="goMateria('fis')">
     <span class="bico">⚛️</span><span class="blbl">Fis/Quim</span>
   </button>
+  <button class="bitem" id="bn-opt" onclick="goMateria('opt')">
+    <span class="bico">🔭</span><span class="blbl">Optica/Calor</span>
+  </button>
 </nav>
 
 <script>
-const TITLES={geo:'Geometria Plana',hist:'Historia do Brasil',pop:'Geo. da Populacao',bio:'Biologia Molecular',fis:'Fisica e Quimica'};
+const TITLES={geo:'Geometria Plana',hist:'Historia do Brasil',pop:'Geo. da Populacao',bio:'Biologia Molecular',fis:'Fisica e Quimica',opt:'Optica e Calorimetria'};
 
 function goMateria(m){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));
@@ -1157,9 +1503,11 @@ function goMateria(m){
   document.getElementById('bn-'+m).classList.add('on-'+m);
   document.querySelectorAll('.mtab').forEach(t=>t.className='mtab');
   const tabs=document.querySelectorAll('.mtab');
-  const i=['geo','hist','pop','bio','fis'].indexOf(m);
+  const i=['geo','hist','pop','bio','fis','opt'].indexOf(m);
   if(i>=0)tabs[i].classList.add('on-'+m);
   document.getElementById('tb-sub').textContent=TITLES[m];
+  document.querySelectorAll('.chips-bar .chips').forEach(c=>c.classList.remove('show'));
+  document.getElementById('ch-'+m).classList.add('show');
   document.getElementById('pg-'+m).scrollTop=0;
 }
 
@@ -1167,7 +1515,7 @@ function goSec(m,s,el){
   document.getElementById('pg-'+m).querySelectorAll('.sec').forEach(x=>x.classList.remove('show'));
   document.getElementById(m+'-'+s).classList.add('show');
   document.getElementById('ch-'+m).querySelectorAll('.chip').forEach(c=>{
-    c.classList.remove('sel-geo','sel-hist','sel-pop','sel-bio','sel-fis');
+    c.classList.remove('sel-geo','sel-hist','sel-pop','sel-bio','sel-fis','sel-opt');
   });
   el.classList.add('sel-'+m);
   document.getElementById('pg-'+m).scrollTop=0;
